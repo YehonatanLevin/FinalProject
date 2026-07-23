@@ -1,4 +1,135 @@
+@font-face { font-family: 'Assistant'; font-weight: 400; font-display: swap;
+  src: url('/fonts/assistant-hebrew-400.woff2') format('woff2');
+  unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: 'Assistant'; font-weight: 400; font-display: swap;
+  src: url('/fonts/assistant-latin-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F; }
+@font-face { font-family: 'Assistant'; font-weight: 600; font-display: swap;
+  src: url('/fonts/assistant-hebrew-600.woff2') format('woff2');
+  unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: 'Assistant'; font-weight: 600; font-display: swap;
+  src: url('/fonts/assistant-latin-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F; }
+@font-face { font-family: 'Assistant'; font-weight: 700; font-display: swap;
+  src: url('/fonts/assistant-hebrew-700.woff2') format('woff2');
+  unicode-range: U+0590-05FF, U+FB1D-FB4F; }
+@font-face { font-family: 'Assistant'; font-weight: 700; font-display: swap;
+  src: url('/fonts/assistant-latin-700.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+2000-206F; }
+
+:root {
+    --ink: #16202a;
+    --ink-soft: #5b6874;
+    --surface: #f4f6f5;
+    --card: #ffffff;
+    --line: #dfe4e2;
+    --brand: #1b4d3e;
+    --brand-soft: #2c6b58;
+    --signal: #d9642a;
+    --radius: 10px;
+}
+* { box-sizing: border-box; }
+
 body {
-    font-family: sans-serif;
-    margin: 40px;
+    font-family: 'Assistant', system-ui, sans-serif;
+    background: var(--surface);
+    color: var(--ink);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main { flex: 1; }
+h1, h2, h3 { font-weight: 700; letter-spacing: -.01em; }
+
+.site-header { background: var(--card); border-bottom: 1px solid var(--line); }
+
+.brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--brand);
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.brand-mark {
+    width: 20px;
+    height: 14px;
+    background:
+        linear-gradient(var(--brand), var(--brand)) 0 0 / 20px 3px no-repeat,
+        linear-gradient(var(--brand), var(--brand)) 0 5px / 14px 3px no-repeat,
+        linear-gradient(var(--signal), var(--signal)) 0 10px / 8px 3px no-repeat;
+}
+
+.navbar-nav .nav-link {
+    color: var(--ink-soft);
+    font-weight: 600;
+    padding-inline: .9rem;
+    border-radius: var(--radius);
+    transition: color .18s ease, background-color .18s ease;
+}
+.navbar-nav .nav-link:hover { color: var(--brand); background: rgba(27,77,62,.07); }
+
+.nav-actions { display: flex; gap: .5rem; }
+
+.btn-brand {
+    background: var(--brand);
+    border: 1px solid var(--brand);
+    color: #fff;
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: background-color .18s ease, transform .18s ease;
+}
+.btn-brand:hover { background: var(--brand-soft); color: #fff; transform: translateY(-1px); }
+
+.btn-outline-brand {
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink);
+    border-radius: var(--radius);
+    font-weight: 600;
+    transition: border-color .18s ease, color .18s ease;
+}
+.btn-outline-brand:hover { border-color: var(--brand); color: var(--brand); }
+
+.site-footer {
+    background: var(--card);
+    border-top: 1px solid var(--line);
+    padding: 1.75rem 0;
+    margin-top: 3rem;
+}
+.footer-brand { font-weight: 700; color: var(--brand); margin: 0 0 .15rem; }
+.footer-note { color: var(--ink-soft); font-size: .875rem; margin: 0; }
+
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.hero {
+    background: var(--card);
+    border-bottom: 1px solid var(--line);
+    padding: 3.5rem 0;
+    margin-bottom: 2.5rem;
+}
+.hero h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 .5rem; }
+.hero-lead { color: var(--ink-soft); font-size: 1.125rem; margin: 0 0 1.5rem; }
+
+.section-title {
+    font-size: 1.125rem;
+    padding-bottom: .6rem;
+    border-bottom: 2px solid var(--brand);
+    display: inline-block;
+    margin-bottom: 1rem;
+}
+
+.empty-state {
+    background: var(--card);
+    border: 1px dashed var(--line);
+    border-radius: var(--radius);
+    padding: 2rem;
+    text-align: center;
+    color: var(--ink-soft);
+    margin: 0;
 }
