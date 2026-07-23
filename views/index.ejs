@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title><%= title %></title>
-    <link href="/css/main.css" rel="stylesheet">
+    <%- include('partials/head') %>
 </head>
 <body>
-    <h1><%= title %></h1>
-    <p>השלד עובד.</p>
+    <%- include('partials/header') %>
+    <main>
+        <section class="hero">
+            <div class="container">
+                <h1>רצים ביחד</h1>
+                <p class="hero-lead">קבוצות ריצה, מסלולים ודיווחים — במקום אחד.</p>
+                <a class="btn btn-brand" href="/register">הצטרפו</a>
+            </div>
+        </section>
+        <div class="container">
+            <div class="row g-4">
+                <section class="col-lg-8">
+                    <h2 class="section-title">הפיד</h2>
+                    <p class="empty-state">עדיין אין פוסטים. הצטרפו לקבוצה כדי להתחיל.</p>
+                </section>
+                <aside class="col-lg-4">
+                    <h2 class="section-title">קבוצות פעילות</h2>
+                    <p class="empty-state">עדיין אין קבוצות.</p>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
 </body>
 </html>
