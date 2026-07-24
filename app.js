@@ -19,6 +19,7 @@ app.use(bodyParser.json());
 
 // Routes
 app.use('/', require('./routes/index'));
+app.use('/', require('./routes/auth'));
 
 // Start server only after the database is connected
 async function start() {
