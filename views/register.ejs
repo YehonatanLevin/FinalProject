@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="form-card">
+                <h1 class="form-title">הרשמה</h1>
+                <% if (errors.length) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <ul class="error-list">
+                            <% errors.forEach(function (e) { %>
+                                <li><%= e %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+                <form action="/register" method="POST" id="registerForm" novalidate>
+                    <div class="mb-3">
+                        <label class="form-label" for="username">שם משתמש</label>
+                        <input class="form-control" type="text" id="username" name="username"
+                               value="<%= values.username || '' %>"
+                               required minlength="3" maxlength="20" pattern="[a-zA-Z0-9_]+">
+                        <small class="form-hint">אותיות באנגלית, ספרות וקו תחתון בלבד</small>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="fullName">שם מלא</label>
+                        <input class="form-control" type="text" id="fullName" name="fullName"
+                               value="<%= values.fullName || '' %>" required maxlength="60">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="email">אימייל</label>
+                        <input class="form-control" type="email" id="email" name="email"
+                               value="<%= values.email || '' %>" required>
+                    </div>                    <div class="mb-3">
+                        <label class="form-label" for="city">עיר</label>
+                        <input class="form-control" type="text" id="city" name="city"
+                               value="<%= values.city || '' %>" maxlength="40">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="password">סיסמה</label>
+                        <input class="form-control" type="password" id="password" name="password"
+                               required minlength="6">
+                        <small class="form-hint">לפחות 6 תווים</small>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="passwordConfirm">אימות סיסמה</label>
+                        <input class="form-control" type="password" id="passwordConfirm"
+                               name="passwordConfirm" required minlength="6">
+                    </div>
+                    <button class="btn btn-brand w-100" type="submit">הרשמה</button>
+                </form>
+                <p class="form-foot">כבר רשומים? <a href="/login">התחברות</a></p>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="/js/register.js"></script>
+</body>
+</html>
