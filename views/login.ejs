@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="form-card">
+                <h1 class="form-title">התחברות</h1>
+                <% if (error) { %>
+                    <div class="alert alert-danger" role="alert"><%= error %></div>
+                <% } %>
+                <form action="/login" method="POST">
+                    <div class="mb-3">
+                        <label class="form-label" for="username">שם משתמש</label>
+                        <input class="form-control" type="text" id="username" name="username"
+                               value="<%= values.username || '' %>" required autofocus>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="password">סיסמה</label>
+                        <input class="form-control" type="password" id="password" name="password" required>
+                    </div>
+                    <button class="btn btn-brand w-100" type="submit">התחברות</button>
+                </form>
+                <p class="form-foot">אין לכם חשבון? <a href="/register">הרשמה</a></p>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

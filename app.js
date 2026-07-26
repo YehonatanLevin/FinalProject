@@ -6,22 +6,20 @@ const connectDB = require('./config/db');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// View engine
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Static files
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Body parsing
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Routes
+app.use(require('./config/session'));
+app.use(require('./middleware/currentUser'));
+
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth'));
 
-// Start server only after the database is connected
 async function start() {
     await connectDB();
     app.listen(PORT, () => {

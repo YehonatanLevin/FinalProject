@@ -19,8 +19,9 @@ exports.register = async (req, res, next) => {
     }
 
     try {
-        await User.create({ username, fullName, email, city, password });
-        res.redirect('/login');
+        const user = await User.create({ username, fullName, email, city, password });
+        req.session.userId = user._id;
+        res.redirect('/');
     } catch (err) {
         if (err.name === 'ValidationError') {
             return res.status(400).render('register', {
@@ -39,4 +40,35 @@ exports.register = async (req, res, next) => {
         }
         next(err);
     }
+};
+const LOGIN_TITLE = 'התחברות';
+
+exports.showLogin = (req, res) => {
+    res.render('login', { title: LOGIN_TITLE, error: null, values: {} });
+};
+
+exports.login = async (req, res, next) => {
+    const { username, password } = req.body;
+    try {
+        const user = await User.findOne({ username: (username || '').trim().toLowerCase() });
+
+        if (!user || !(await user.comparePassword(password))) {
+            return res.status(401).render('login', {
+                title: LOGIN_TITLE,
+                error: 'שם משתמש או סיסמה שגויים',
+                values: { username }
+            });
+        }
+
+        req.session.userId = user._id;
+        res.redirect('/');
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.logout = (req, res) => {
+    req.session.destroy(() => {
+        res.redirect('/login');
+    });
 };
