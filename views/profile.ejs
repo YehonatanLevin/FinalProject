@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="profile-header">
+                <img class="profile-avatar" src="<%= profileUser.profileImage %>" alt="תמונת פרופיל">
+                <div class="profile-meta">
+                    <h1 class="profile-name"><%= profileUser.fullName %></h1>
+                    <p class="profile-username">@<%= profileUser.username %></p>
+                    <% if (profileUser.city) { %>
+                        <p class="profile-city"><%= profileUser.city %></p>
+                    <% } %>
+                    <% if (profileUser.bio) { %>
+                        <p class="profile-bio"><%= profileUser.bio %></p>
+                    <% } %>
+                </div>
+            </section>            <div class="row g-4">
+                <aside class="col-md-4">
+                    <div class="stat-card">
+                        <span class="stat-value"><%= profileUser.monthlyGoalKm %></span>
+                        <span class="stat-label">יעד חודשי (ק"מ)</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value"><%= profileUser.friends.length %></span>
+                        <span class="stat-label">חברים</span>
+                    </div>
+                </aside>
+                <section class="col-md-8">
+                    <h2 class="section-title">הפוסטים שלי</h2>
+                    <p class="empty-state">עדיין לא פרסמת פוסטים.</p>
+                </section>
+            </div>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

@@ -19,6 +19,7 @@ app.use(require('./middleware/currentUser'));
 
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth'));
+app.use('/', require('./routes/user'));
 
 async function start() {
     await connectDB();
