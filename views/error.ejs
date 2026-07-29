@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="message-card">
+                <h1 class="message-title">משהו השתבש</h1>
+                <p class="message-text"><%= message %></p>
+                <a class="btn btn-brand" href="/">חזרה לדף הבית</a>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

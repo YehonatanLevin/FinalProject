@@ -16,10 +16,23 @@
                     <li class="nav-item"><a class="nav-link" href="/routes">מסלולים</a></li>
                     <li class="nav-item"><a class="nav-link" href="/map">מפה</a></li>
                     <li class="nav-item"><a class="nav-link" href="/stats">סטטיסטיקה</a></li>
+                    <% if (currentUser) { %>
+                        <li class="nav-item"><a class="nav-link" href="/posts/mine">הפוסטים שלי</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/posts/search">חיפוש</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/users">משתמשים</a></li>
+                    <% } %>
+                    <li class="nav-item"><a class="nav-link" href="/about">אודות</a></li>
                 </ul>
                 <div class="nav-actions">
-                    <a class="btn btn-outline-brand btn-sm" href="/login">התחברות</a>
-                    <a class="btn btn-brand btn-sm" href="/register">הרשמה</a>
+                    <% if (currentUser) { %>
+                        <a class="nav-user" href="/profile"><%= currentUser.fullName %></a>
+                        <form class="logout-form" action="/logout" method="POST">
+                            <button class="btn btn-outline-brand btn-sm" type="submit">התנתקות</button>
+                        </form>
+                    <% } else { %>
+                        <a class="btn btn-outline-brand btn-sm" href="/login">התחברות</a>
+                        <a class="btn btn-brand btn-sm" href="/register">הרשמה</a>
+                    <% } %>
                 </div>
             </div>
         </nav>

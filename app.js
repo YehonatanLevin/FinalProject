@@ -2,12 +2,16 @@ const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
 const connectDB = require('./config/db');
+const timeAgo = require('./utils/timeAgo');
+const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+
+app.locals.timeAgo = timeAgo;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -20,6 +24,18 @@ app.use(require('./middleware/currentUser'));
 app.use('/', require('./routes/index'));
 app.use('/', require('./routes/auth'));
 app.use('/', require('./routes/user'));
+app.use('/', require('./routes/group'));
+app.use('/', require('./routes/search'));
+app.use('/', require('./routes/share'));
+app.use('/', require('./routes/post'));
+app.use('/', require('./routes/route'));
+app.use('/', require('./routes/stats'));
+
+/* אחרון: דפים שעדיין לא מומשו. נמחק כשהכל יושלם. */
+app.use('/', require('./routes/placeholder'));
+
+app.use(notFound);
+app.use(errorHandler);
 
 async function start() {
     await connectDB();
