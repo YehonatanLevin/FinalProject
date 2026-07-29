@@ -1,0 +1,80 @@
+<article class="post-card" data-post-id="<%= post._id %>">
+    <div class="post-head">
+        <img class="post-avatar" src="<%= post.author.profileImage %>" alt="תמונת פרופיל">
+        <div class="post-head-meta">
+            <a class="post-author" href="/users/<%= post.author._id %>"><%= post.author.fullName %></a>
+            <p class="post-time">
+                <%= timeAgo(post.createdAt) %>
+                <% if (post.group) { %>
+                    · <a href="/groups/<%= post.group._id %>"><%= post.group.name %></a>
+                <% } %>
+            </p>
+        </div>
+        <% if (String(post.author._id) === String(currentUser._id)) { %>
+            <div class="post-actions">
+                <a class="post-action" href="/posts/<%= post._id %>/edit">עריכה</a>
+                <button class="post-action post-delete" type="button">מחיקה</button>
+            </div>
+        <% } %>
+    </div>
+
+    <p class="post-content"><%= post.content %></p>
+
+    <% if (post.type === 'image' && post.image) { %>
+        <img class="post-image" src="<%= post.image %>" alt="תמונת הפוסט">
+    <% } %>
+
+    <% if (post.type === 'run' && post.run) { %>
+        <div class="run-stats">
+            <div class="run-stat">
+                <span class="run-value"><%= post.run.distanceKm %></span>
+                <span class="run-label">ק"מ</span>
+            </div>
+            <% if (post.run.durationMin) { %>
+                <div class="run-stat">
+                    <span class="run-value"><%= post.run.durationMin %></span>
+                    <span class="run-label">דקות</span>
+                </div>
+                <div class="run-stat">
+                    <span class="run-value"><%= (post.run.durationMin / post.run.distanceKm).toFixed(1) %></span>
+                    <span class="run-label">קצב לק"מ</span>
+                </div>
+            <% } %>
+            <% if (post.run.route) { %>
+                <div class="run-stat run-route">
+                    <span class="run-label">מסלול</span>
+                    <span class="run-value-sm"><%= post.run.route.name %></span>
+                </div>
+            <% } %>
+        </div>
+    <% } %>
+
+    <div class="post-foot">
+        <button class="like-btn <%= post.likes.some(function(l){ return String(l) === String(currentUser._id); }) ? 'is-liked' : '' %>"
+                type="button"
+                data-liked="<%= post.likes.some(function(l){ return String(l) === String(currentUser._id); }) %>">
+            <span class="like-icon">♥</span>
+            <span class="like-count"><%= post.likes.length %></span>
+        </button>
+        <button class="comment-toggle" type="button">
+            תגובות (<span class="comment-count"><%= post.comments.length %></span>)
+        </button>
+        <% if (String(post.author._id) === String(currentUser._id)) { %>
+            <button class="share-fb" type="button">שיתוף לפייסבוק</button>
+        <% } %>
+    </div>
+    <div class="share-result"></div>
+
+    <div class="comment-area" hidden>
+        <ul class="comment-list">
+            <% post.comments.forEach(function (c) { %>
+                <li class="comment"><span class="comment-text"><%= c.text %></span></li>
+            <% }); %>
+        </ul>
+        <form class="comment-form">
+            <input class="form-control comment-input" type="text" name="text"
+                   placeholder="כתבו תגובה..." maxlength="300" required>
+            <button class="btn btn-brand btn-sm" type="submit">שליחה</button>
+        </form>
+    </div>
+</article>

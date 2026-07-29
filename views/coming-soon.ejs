@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="message-card">
+                <p class="soon-tag">בבנייה</p>
+                <h1 class="message-title"><%= title %></h1>
+                <p class="message-text">
+                    החלק הזה עדיין לא מומש. הוא באחריות מסלול <strong><%= owner %></strong>.
+                </p>
+                <a class="btn btn-brand" href="/">חזרה לדף הבית</a>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>
