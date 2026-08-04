@@ -18,8 +18,10 @@
                     <% if (profileUser.bio) { %>
                         <p class="profile-bio"><%= profileUser.bio %></p>
                     <% } %>
+                    <a class="btn btn-outline-brand btn-sm profile-edit-btn" href="/profile/edit">עריכת פרופיל</a>
                 </div>
-            </section>            <div class="row g-4">
+            </section>
+            <div class="row g-4">
                 <aside class="col-md-4">
                     <div class="stat-card">
                         <span class="stat-value"><%= profileUser.monthlyGoalKm %></span>

@@ -1,1 +1,11 @@
 /* מסלול A - משתמשים, פרופיל, הרשאות, עיצוב */
+.profile-edit-btn { margin-top: .75rem; }
+.avatar-field { display: flex; align-items: center; gap: 1rem; }
+.avatar-preview {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--line);
+    flex-shrink: 0;
+}
