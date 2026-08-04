@@ -18,7 +18,15 @@
                     <% if (profileUser.bio) { %>
                         <p class="profile-bio"><%= profileUser.bio %></p>
                     <% } %>
-                    <a class="btn btn-outline-brand btn-sm profile-edit-btn" href="/profile/edit">עריכת פרופיל</a>
+                    <% if (isOwn) { %>
+                        <a class="btn btn-outline-brand btn-sm profile-edit-btn" href="/profile/edit">עריכת פרופיל</a>
+                    <% } else { %>
+                        <button class="btn btn-sm profile-edit-btn friend-toggle <%= isFriend ? 'btn-outline-brand' : 'btn-brand' %>"
+                                data-user-id="<%= profileUser._id %>"
+                                data-is-friend="<%= isFriend %>">
+                            <%= isFriend ? 'הסרה מחברים' : 'הוספה כחבר' %>
+                        </button>
+                    <% } %>
                 </div>
             </section>
             <div class="row g-4">
@@ -28,17 +36,28 @@
                         <span class="stat-label">יעד חודשי (ק"מ)</span>
                     </div>
                     <div class="stat-card">
-                        <span class="stat-value"><%= profileUser.friends.length %></span>
+                        <span class="stat-value" id="friendCount"><%= profileUser.friends.length %></span>
                         <span class="stat-label">חברים</span>
                     </div>
+                    <% if (profileUser.friends.length) { %>
+                        <div class="stat-card friend-list">
+                            <span class="stat-label">רשימת חברים</span>
+                            <ul>
+                                <% profileUser.friends.forEach(function (f) { %>
+                                    <li><a href="/users/<%= f._id %>"><%= f.fullName %></a></li>
+                                <% }); %>
+                            </ul>
+                        </div>
+                    <% } %>
                 </aside>
                 <section class="col-md-8">
-                    <h2 class="section-title">הפוסטים שלי</h2>
-                    <p class="empty-state">עדיין לא פרסמת פוסטים.</p>
+                    <h2 class="section-title"><%= isOwn ? 'הפוסטים שלי' : 'הפוסטים של ' + profileUser.fullName %></h2>
+                    <p class="empty-state">עדיין אין פוסטים.</p>
                 </section>
             </div>
         </div>
     </main>
     <%- include('partials/footer') %>
+    <script src="/js/friends.js"></script>
 </body>
 </html>
