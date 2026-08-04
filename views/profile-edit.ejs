@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="form-card">
+                <h1 class="form-title">עריכת פרופיל</h1>
+                <% if (errors.length) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <ul class="error-list">
+                            <% errors.forEach(function (e) { %>
+                                <li><%= e %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+                <form action="/profile/edit" method="POST" enctype="multipart/form-data" id="profileForm" novalidate>
+                    <div class="mb-3 avatar-field">
+                        <img class="avatar-preview" src="<%= profileImage %>" alt="תמונת פרופיל נוכחית">
+                        <div>
+                            <label class="form-label" for="profileImage">תמונת פרופיל</label>
+                            <input class="form-control" type="file" id="profileImage" name="profileImage"
+                                   accept="image/jpeg,image/png,image/webp">
+                            <small class="form-hint">JPG, PNG או WEBP · עד 2MB · השארה ריקה תשמור על התמונה הקיימת</small>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="fullName">שם מלא</label>
+                        <input class="form-control" type="text" id="fullName" name="fullName"
+                               value="<%= values.fullName || '' %>" required minlength="2" maxlength="60">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="city">עיר</label>
+                        <input class="form-control" type="text" id="city" name="city"
+                               value="<%= values.city || '' %>" maxlength="40">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="bio">קצת עליי</label>
+                        <textarea class="form-control" id="bio" name="bio" rows="3"
+                                  maxlength="200"><%= values.bio || '' %></textarea>
+                        <small class="form-hint">עד 200 תווים</small>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label" for="monthlyGoalKm">יעד חודשי (ק"מ)</label>
+                        <input class="form-control" type="number" id="monthlyGoalKm" name="monthlyGoalKm"
+                               value="<%= values.monthlyGoalKm %>" min="0" max="1000" step="1">
+                    </div>
+                    <button class="btn btn-brand w-100" type="submit">שמירה</button>
+                </form>
+                <p class="form-foot"><a href="/profile">חזרה לפרופיל</a></p>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>
