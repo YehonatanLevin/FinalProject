@@ -37,3 +37,23 @@
 .friend-list li { padding: .3rem 0; border-top: 1px solid var(--line); }
 .friend-list a { color: var(--ink); text-decoration: none; font-weight: 600; font-size: .9rem; }
 .friend-list a:hover { color: var(--brand); }
+
+.search-bar {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+.search-actions { display: flex; align-items: flex-end; }
+#userResults { transition: opacity .18s ease; }
+#userResults.is-loading { opacity: .45; }
+.danger-zone {
+    border: 1px solid #e2b8b8;
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 2rem;
+    background: #fdf6f6;
+}
+.danger-zone h2 { font-size: 1rem; margin: 0 0 .5rem; color: #96322d; }
+.danger-zone p { color: var(--ink-soft); font-size: .875rem; margin: 0 0 1rem; }
