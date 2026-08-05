@@ -1,0 +1,22 @@
+<% if (!users.length) { %>
+    <p class="empty-state">לא נמצאו משתמשים התואמים לחיפוש.</p>
+<% } else { %>
+    <div class="row g-3">
+        <% users.forEach(function (u) { %>
+            <div class="col-md-6 col-lg-4">
+                <article class="user-card">
+                    <img class="user-card-avatar" src="<%= u.profileImage %>" alt="תמונת פרופיל">
+                    <div class="user-card-body">
+                        <a class="user-card-name" href="/users/<%= u._id %>"><%= u.fullName %></a>
+                        <p class="user-card-meta">@<%= u.username %><% if (u.city) { %> · <%= u.city %><% } %></p>
+                    </div>
+                    <button class="btn btn-sm friend-toggle <%= friendIds.indexOf(String(u._id)) === -1 ? 'btn-brand' : 'btn-outline-brand' %>"
+                            data-user-id="<%= u._id %>"
+                            data-is-friend="<%= friendIds.indexOf(String(u._id)) !== -1 %>">
+                        <%= friendIds.indexOf(String(u._id)) === -1 ? 'הוספה' : 'הסרה' %>
+                    </button>
+                </article>
+            </div>
+        <% }); %>
+    </div>
+<% } %>

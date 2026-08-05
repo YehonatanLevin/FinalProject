@@ -51,10 +51,20 @@
                     </div>
                     <button class="btn btn-brand w-100" type="submit">שמירה</button>
                 </form>
+
+                <section class="danger-zone">
+                    <h2>מחיקת חשבון</h2>
+                    <p>הפעולה תמחק את החשבון, את הקבוצות שיצרת ואת החברויות שלך. אין דרך חזרה.</p>
+                    <form action="/profile/delete" method="POST" id="deleteAccountForm">
+                        <button class="btn btn-outline-danger btn-sm" type="submit">מחיקת החשבון שלי</button>
+                    </form>
+                </section>
+
                 <p class="form-foot"><a href="/profile">חזרה לפרופיל</a></p>
             </section>
         </div>
     </main>
     <%- include('partials/footer') %>
+    <script src="/js/account.js"></script>
 </body>
 </html>

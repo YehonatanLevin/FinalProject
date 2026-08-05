@@ -8,31 +8,30 @@
     <main>
         <div class="container">
             <h1 class="section-title">משתמשים</h1>
-            <% if (!users.length) { %>
-                <p class="empty-state">אין עדיין משתמשים נוספים במערכת.</p>
-            <% } else { %>
-                <div class="row g-3">
-                    <% users.forEach(function (u) { %>
-                        <div class="col-md-6 col-lg-4">
-                            <article class="user-card">
-                                <img class="user-card-avatar" src="<%= u.profileImage %>" alt="תמונת פרופיל">
-                                <div class="user-card-body">
-                                    <a class="user-card-name" href="/users/<%= u._id %>"><%= u.fullName %></a>
-                                    <p class="user-card-meta">@<%= u.username %><% if (u.city) { %> · <%= u.city %><% } %></p>
-                                </div>
-                                <button class="btn btn-sm friend-toggle <%= friendIds.indexOf(String(u._id)) === -1 ? 'btn-brand' : 'btn-outline-brand' %>"
-                                        data-user-id="<%= u._id %>"
-                                        data-is-friend="<%= friendIds.indexOf(String(u._id)) !== -1 %>">
-                                    <%= friendIds.indexOf(String(u._id)) === -1 ? 'הוספה' : 'הסרה' %>
-                                </button>
-                            </article>
-                        </div>
-                    <% }); %>
+
+            <form class="search-bar" id="userSearchForm" action="/users" method="GET">
+                <div class="row g-2">
+                    <div class="col-md-5">
+                        <label class="form-label" for="q">שם או שם משתמש</label>
+                        <input class="form-control" type="text" id="q" name="q" value="<%= values.q %>" maxlength="40">
+                    </div>
+                    <div class="col-md-5">
+                        <label class="form-label" for="city">עיר</label>
+                        <input class="form-control" type="text" id="city" name="city" value="<%= values.city %>" maxlength="40">
+                    </div>
+                    <div class="col-md-2 search-actions">
+                        <button class="btn btn-brand w-100" type="submit">חיפוש</button>
+                    </div>
                 </div>
-            <% } %>
+            </form>
+
+            <div id="userResults">
+                <%- include('partials/user-list', { users: users, friendIds: friendIds }) %>
+            </div>
         </div>
     </main>
     <%- include('partials/footer') %>
     <script src="/js/friends.js"></script>
+    <script src="/js/user-search.js"></script>
 </body>
 </html>

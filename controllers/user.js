@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
+const Group = require('../models/group');
+const escapeRegex = require('../utils/escapeRegex');
 
 const EDIT_TITLE = 'עריכת פרופיל';
 
@@ -36,12 +38,36 @@ exports.showUser = async (req, res, next) => {
 };
 
 exports.list = async (req, res, next) => {
+    const q = (req.query.q || '').trim();
+    const city = (req.query.city || '').trim();
+
+    const filter = { _id: { $ne: req.user._id } };
+
+    if (q) {
+        const rx = new RegExp(escapeRegex(q), 'i');
+        filter.$or = [{ username: rx }, { fullName: rx }];
+    }
+    if (city) {
+        filter.city = new RegExp(escapeRegex(city), 'i');
+    }
+
     try {
-        const users = await User.find({ _id: { $ne: req.user._id } })
+        const users = await User.find(filter)
             .select('username fullName city profileImage')
             .sort({ fullName: 1 })
             .limit(50);
-        res.render('users', { title: 'משתמשים', users, friendIds: req.user.friends.map(String) });
+
+        const payload = {
+            title: 'משתמשים',
+            users,
+            friendIds: req.user.friends.map(String),
+            values: { q, city }
+        };
+
+        if (req.xhr) {
+            return res.json({ users, friendIds: payload.friendIds });
+        }
+        res.render('users', payload);
     } catch (err) {
         next(err);
     }
@@ -139,6 +165,23 @@ exports.update = async (req, res, next) => {
         if (err.name === 'ValidationError') {
             return rerender(Object.values(err.errors).map(e => e.message));
         }
+        next(err);
+    }
+};
+
+exports.destroy = async (req, res, next) => {
+    const userId = req.user._id;
+
+    try {
+        await User.updateMany({ friends: userId }, { $pull: { friends: userId } });
+        await Group.updateMany({ members: userId }, { $pull: { members: userId } });
+        await Group.deleteMany({ creator: userId });
+        await User.deleteOne({ _id: userId });
+
+        req.session.destroy(() => {
+            res.redirect('/');
+        });
+    } catch (err) {
         next(err);
     }
 };
