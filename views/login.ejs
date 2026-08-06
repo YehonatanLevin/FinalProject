@@ -12,7 +12,7 @@
                 <% if (error) { %>
                     <div class="alert alert-danger" role="alert"><%= error %></div>
                 <% } %>
-                <form action="/login" method="POST">
+                <form action="/login" method="POST" id="loginForm" novalidate>
                     <div class="mb-3">
                         <label class="form-label" for="username">שם משתמש</label>
                         <input class="form-control" type="text" id="username" name="username"
