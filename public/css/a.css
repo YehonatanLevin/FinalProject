@@ -57,3 +57,41 @@
 }
 .danger-zone h2 { font-size: 1rem; margin: 0 0 .5rem; color: #96322d; }
 .danger-zone p { color: var(--ink-soft); font-size: .875rem; margin: 0 0 1rem; }
+
+/* ---- CSS3: text-shadow ---- */
+.hero h1 {
+    text-shadow: 0 2px 0 rgba(255,255,255,.6), 0 3px 8px rgba(22,32,42,.18);
+}
+.brand {
+    text-shadow: 0 1px 0 rgba(255,255,255,.7);
+}
+
+/* ---- CSS3: multiple-columns ---- */
+.about-columns {
+    columns: 2 260px;
+    column-gap: 2.5rem;
+    column-rule: 1px solid var(--line);
+    margin-bottom: 2rem;
+}
+.about-columns p { margin: 0 0 1rem; break-inside: avoid; }
+@media (max-width: 640px) { .about-columns { columns: 1; column-rule: none; } }
+
+.about-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 2rem;
+    margin: 2.5rem 0;
+}
+.tech-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: .5rem; }
+.tech-list li {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: .3rem .75rem;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    transition: border-color .18s ease, color .18s ease;
+}
+.tech-list li:hover { border-color: var(--brand); color: var(--brand); }
