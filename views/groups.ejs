@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+    <%- include('partials/header') %>
+
+    <main>
+        <div class="container">
+
+            <div class="feed-head">
+                <h1 class="section-title">קבוצות ריצה</h1>
+
+                <a
+                    class="btn btn-brand btn-sm"
+                    href="/groups/new">
+                    קבוצה חדשה
+                </a>
+            </div>
+
+
+            <form
+                class="search-bar"
+                action="/groups"
+                method="GET">
+
+                <div class="row g-2">
+
+                    <div class="col-md-10">
+
+                        <label
+                            class="form-label"
+                            for="city">
+                            סינון לפי עיר
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="city"
+                            name="city"
+                            value="<%= values.city %>"
+                            maxlength="40">
+
+                    </div>
+
+                    <div class="col-md-2 search-actions">
+
+                        <button
+                            class="btn btn-brand w-100"
+                            type="submit">
+                            סינון
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+            <% if (!groups.length) { %>
+
+                <p class="empty-state">
+                    לא נמצאו קבוצות.
+                </p>
+
+            <% } else { %>
+
+                <div class="row g-3">
+
+                    <% groups.forEach(function (g) { %>
+
+                        <div class="col-md-6 col-lg-4">
+
+                            <article class="group-card">
+
+                                <img
+                                    class="group-cover"
+                                    src="<%= g.coverImage %>"
+                                    alt="תמונת קבוצה">
+
+                                <div class="group-body">
+
+                                    <a
+                                        class="group-name"
+                                        href="/groups/<%= g._id %>">
+                                        <%= g.name %>
+                                    </a>
+
+                                    <p class="group-meta">
+                                        <% if (g.city) { %>
+                                            <%= g.city %> ·
+                                        <% } %>
+
+                                        <%= g.members.length %> חברים
+                                    </p>
+
+                                    <% if (g.description) { %>
+                                        <p class="group-desc">
+                                            <%= g.description %>
+                                        </p>
+                                    <% } %>
+
+                                </div>
+
+                            </article>
+
+                        </div>
+
+                    <% }); %>
+
+                </div>
+
+            <% } %>
+
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+</body>
+</html>

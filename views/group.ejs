@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+    <%- include('partials/header') %>
+
+    <main>
+        <div class="container">
+
+            <section class="group-header">
+
+                <img
+                    class="group-header-cover"
+                    src="<%= group.coverImage %>"
+                    alt="תמונת קבוצה">
+
+                <div class="group-header-meta">
+
+                    <h1 class="group-title"><%= group.name %></h1>
+
+                    <p class="group-meta">
+                        <% if (group.city) { %>
+                            <%= group.city %> ·
+                        <% } %>
+
+                        <span id="memberCount">
+                            <%= group.members.length %>
+                        </span>
+                        חברים · מנהל: <%= group.creator.fullName %>
+                    </p>
+
+                    <% if (group.description) { %>
+                        <p class="group-desc">
+                            <%= group.description %>
+                        </p>
+                    <% } %>
+
+                    <div class="group-header-actions">
+
+                        <% if (!isManager) { %>
+                            <button
+                                class="btn btn-sm join-btn <%= isMember ? 'btn-outline-brand' : 'btn-brand' %>"
+                                type="button"
+                                data-group-id="<%= group._id %>"
+                                data-is-member="<%= isMember %>">
+
+                                <%= isMember ? 'עזיבת הקבוצה' : 'הצטרפות' %>
+                            </button>
+                        <% } %>
+
+                        <% if (isManager) { %>
+                            <a
+                                class="btn btn-outline-brand btn-sm"
+                                href="/groups/<%= group._id %>/edit">
+                                ניהול הקבוצה
+                            </a>
+                        <% } %>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <div class="row g-4">
+
+                <section class="col-lg-8">
+
+                    <h2 class="section-title">פוסטים בקבוצה</h2>
+
+                    <% if (!posts.length) { %>
+
+                        <p class="empty-state">
+                            עדיין אין פוסטים בקבוצה.
+                        </p>
+
+                    <% } else { %>
+
+                        <% posts.forEach(function (post) { %>
+                            <%- include('partials/post-card', { post: post }) %>
+                        <% }); %>
+
+                    <% } %>
+
+                </section>
+
+
+                <aside class="col-lg-4">
+
+                    <h2 class="section-title">חברי הקבוצה</h2>
+
+                    <ul class="side-list">
+                        <% group.members.forEach(function (m) { %>
+                            <li>
+                                <a href="/users/<%= m._id %>">
+                                    <%= m.fullName %>
+                                </a>
+                            </li>
+                        <% }); %>
+                    </ul>
+
+                </aside>
+
+            </div>
+
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/groups.js"></script>
+    <script src="/js/posts.js"></script>
+
+</body>
+</html>

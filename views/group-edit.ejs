@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+    <%- include('partials/header') %>
+
+    <main>
+        <div class="container">
+
+            <section class="form-card">
+
+                <h1 class="form-title">ניהול הקבוצה</h1>
+
+                <% if (errors.length) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <ul class="error-list">
+                            <% errors.forEach(function (e) { %>
+                                <li><%= e %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+
+                <form
+                    action="/groups/<%= group._id %>/edit"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    id="groupForm"
+                    novalidate>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="name">שם הקבוצה</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="<%= values.name || '' %>"
+                            required
+                            minlength="2"
+                            maxlength="50">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="city">עיר</label>
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="city"
+                            name="city"
+                            value="<%= values.city || '' %>"
+                            maxlength="40">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="description">תיאור</label>
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="3"
+                            maxlength="500"><%= values.description || '' %></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" for="coverImage">
+                            החלפת תמונת רקע
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="file"
+                            id="coverImage"
+                            name="coverImage"
+                            accept="image/jpeg,image/png,image/webp">
+                    </div>
+
+                    <button class="btn btn-brand w-100" type="submit">
+                        שמירה
+                    </button>
+
+                </form>
+
+                <section class="danger-zone">
+                    <h2>מחיקת הקבוצה</h2>
+
+                    <p>
+                        הקבוצה תימחק. הפוסטים שפורסמו בה יישמרו,
+                        אך לא ישויכו עוד לקבוצה.
+                    </p>
+
+                    <form
+                        action="/groups/<%= group._id %>/delete"
+                        method="POST"
+                        id="deleteGroupForm">
+
+                        <button
+                            class="btn btn-outline-danger btn-sm"
+                            type="submit">
+                            מחיקת הקבוצה
+                        </button>
+
+                    </form>
+                </section>
+
+                <p class="form-foot">
+                    <a href="/groups/<%= group._id %>">חזרה לקבוצה</a>
+                </p>
+
+            </section>
+
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/groups.js"></script>
+
+</body>
+</html>
