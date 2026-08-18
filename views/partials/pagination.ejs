@@ -1,0 +1,13 @@
+<% if (pageCount > 1) { %>
+    <nav class="pager" aria-label="ניווט בין עמודים">
+        <% if (page > 1) { %>
+            <a class="btn btn-outline-brand btn-sm" href="?page=<%= page - 1 %>">הקודם</a>
+        <% } %>
+
+        <span class="pager-info">עמוד <%= page %> מתוך <%= pageCount %></span>
+
+        <% if (page < pageCount) { %>
+            <a class="btn btn-outline-brand btn-sm" href="?page=<%= page + 1 %>">הבא</a>
+        <% } %>
+    </nav>
+<% } %>
