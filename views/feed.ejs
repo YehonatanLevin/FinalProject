@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <div class="row g-4 feed-layout">
+                <section class="col-lg-8">
+                    <div class="feed-head">
+                        <h1 class="section-title">הפיד</h1>
+                        <a class="btn btn-brand btn-sm" href="/posts/new">פוסט חדש</a>
+                    </div>
+
+                    <% if (!posts.length) { %>
+                        <p class="empty-state">הפיד ריק. הצטרפו לקבוצה או הוסיפו חברים כדי לראות פוסטים.</p>
+                    <% } else { %>
+                        <% posts.forEach(function (post) { %>
+                            <%- include('partials/post-card', { post: post }) %>
+                        <% }); %>
+
+                        <%- include('partials/pagination') %>
+                    <% } %>
+                </section>
+
+                <aside class="col-lg-4">
+                    <h2 class="section-title">הקבוצות שלי</h2>
+
+                    <% if (!activeGroups.length) { %>
+                        <p class="empty-state">עדיין לא הצטרפת לקבוצות.</p>
+                    <% } else { %>
+                        <ul class="side-list">
+                            <% activeGroups.forEach(function (g) { %>
+                                <li>
+                                    <a href="/groups/<%= g._id %>"><%= g.name %></a>
+                                    <span class="side-meta"><%= g.members.length %> חברים</span>
+                                </li>
+                            <% }); %>
+                        </ul>
+                    <% } %>
+
+                    <a class="btn btn-outline-brand btn-sm w-100" href="/groups">כל הקבוצות</a>
+                </aside>
+            </div>
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+    <script src="/js/posts.js"></script>
+</body>
+</html>
