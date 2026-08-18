@@ -1,1 +1,422 @@
 /* מסלול B - פוסטים, קבוצות, פיד, חיפוש */
+/* ---------- פוסטים ---------- */
+.feed-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.feed-head .section-title {
+    margin-bottom: 0;
+}
+
+.post-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: border-color .18s ease;
+}
+
+.post-card:hover {
+    border-color: #cdd6d2;
+}
+
+.post-head {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    margin-bottom: .75rem;
+}
+
+.post-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.post-head-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.post-author {
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.post-author:hover {
+    color: var(--brand);
+}
+
+.post-time {
+    color: var(--ink-soft);
+    font-size: .8rem;
+    margin: .1rem 0 0;
+}
+
+.post-time a {
+    color: var(--brand);
+    text-decoration: none;
+}
+
+.post-actions {
+    display: flex;
+    gap: .5rem;
+}
+
+.post-action {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--ink-soft);
+    font-size: .8rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: color .18s ease;
+}
+
+.post-action:hover {
+    color: var(--signal);
+}
+
+.post-content {
+    margin: 0 0 .75rem;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.post-image {
+    width: 100%;
+    border-radius: var(--radius);
+    margin-bottom: .75rem;
+}
+
+.run-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: .85rem 1rem;
+    margin-bottom: .75rem;
+}
+
+.run-stat {
+    text-align: center;
+}
+
+.run-value {
+    display: block;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--brand);
+    line-height: 1.1;
+}
+
+.run-value-sm {
+    display: block;
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+.run-label {
+    color: var(--ink-soft);
+    font-size: .75rem;
+}
+
+.run-route {
+    text-align: start;
+    margin-inline-start: auto;
+}
+
+.post-foot {
+    display: flex;
+    gap: 1rem;
+    border-top: 1px solid var(--line);
+    padding-top: .75rem;
+}
+
+.like-btn,
+.comment-toggle {
+    background: none;
+    border: none;
+    padding: .2rem .4rem;
+    color: var(--ink-soft);
+    font-weight: 600;
+    font-size: .875rem;
+    cursor: pointer;
+    border-radius: var(--radius);
+    transition: color .18s ease, background-color .18s ease;
+}
+
+.like-btn:hover,
+.comment-toggle:hover {
+    background: var(--surface);
+    color: var(--ink);
+}
+
+.like-btn.is-liked {
+    color: var(--signal);
+}
+
+.like-icon {
+    font-size: 1rem;
+}
+
+.comment-area {
+    border-top: 1px solid var(--line);
+    margin-top: .75rem;
+    padding-top: .75rem;
+}
+
+.comment-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 .75rem;
+}
+
+.comment {
+    background: var(--surface);
+    border-radius: var(--radius);
+    padding: .5rem .75rem;
+    margin-bottom: .4rem;
+    font-size: .9rem;
+}
+
+.comment-form {
+    display: flex;
+    gap: .5rem;
+}
+
+.comment-input {
+    flex: 1;
+}
+
+.post-card-slim .post-foot {
+    display: none;
+}
+
+
+/* ---------- קבוצות ---------- */
+
+.group-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    height: 100%;
+    transition: border-color .18s ease, transform .18s ease;
+}
+
+.group-card:hover {
+    border-color: var(--brand);
+    transform: translateY(-2px);
+}
+
+.group-cover {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    display: block;
+}
+
+.group-body {
+    padding: 1rem;
+}
+
+.group-name {
+    font-weight: 700;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 1.05rem;
+}
+
+.group-name:hover {
+    color: var(--brand);
+}
+
+.group-meta {
+    color: var(--ink-soft);
+    font-size: .85rem;
+    margin: .2rem 0 .4rem;
+}
+
+.group-desc {
+    font-size: .9rem;
+    margin: 0;
+    color: var(--ink);
+}
+
+.group-header {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 2.5rem 0 2rem;
+}
+
+.group-header-cover {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    display: block;
+}
+
+.group-header-meta {
+    padding: 1.5rem;
+}
+
+.group-title {
+    font-size: 1.75rem;
+    margin: 0 0 .25rem;
+    text-shadow: 0 1px 0 rgba(255,255,255,.8);
+}
+
+.group-header-actions {
+    display: flex;
+    gap: .5rem;
+    margin-top: 1rem;
+}
+
+.side-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
+}
+
+.side-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: .6rem .85rem;
+    margin-bottom: .4rem;
+}
+
+.side-list a {
+    color: var(--ink);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: .9rem;
+}
+
+.side-list a:hover {
+    color: var(--brand);
+}
+
+.side-meta {
+    color: var(--ink-soft);
+    font-size: .8rem;
+}
+
+
+/* ---------- טפסים וחיפוש ---------- */
+
+.form-card-wide {
+    max-width: 640px;
+}
+
+.type-picker {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+}
+
+.type-option {
+    flex: 1;
+    min-width: 120px;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: .6rem;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: .9rem;
+    transition: border-color .18s ease, background-color .18s ease;
+}
+
+.type-option:hover {
+    border-color: var(--brand);
+}
+
+.type-option input {
+    margin-inline-end: .35rem;
+}
+
+.type-option:has(input:checked) {
+    border-color: var(--brand);
+    background: rgba(27,77,62,.06);
+}
+
+.result-table {
+    background: var(--card);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.result-table th {
+    font-size: .85rem;
+    color: var(--ink-soft);
+}
+
+.result-count {
+    color: var(--ink-soft);
+    font-size: .9rem;
+    margin-bottom: .75rem;
+}
+
+#routeResults,
+#postResults {
+    transition: opacity .18s ease;
+}
+
+#routeResults.is-loading,
+#postResults.is-loading {
+    opacity: .45;
+}
+
+.badge-easy,
+.badge-medium,
+.badge-hard {
+    border-radius: var(--radius);
+    padding: .15rem .5rem;
+    font-size: .8rem;
+    font-weight: 600;
+}
+
+.badge-easy {
+    background: #e3f0e9;
+    color: #1b4d3e;
+}
+
+.badge-medium {
+    background: #fdf0e3;
+    color: #8a4a17;
+}
+
+.badge-hard {
+    background: #fae3e3;
+    color: #8a2020;
+}
+
+.pager {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.pager-info {
+    color: var(--ink-soft);
+    font-size: .875rem;
+}

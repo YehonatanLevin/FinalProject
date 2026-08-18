@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+
+    <%- include('partials/header') %>
+
+    <main>
+        <div class="container">
+
+            <section class="form-card">
+
+                <h1 class="form-title">קבוצה חדשה</h1>
+
+                <% if (errors.length) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <ul class="error-list">
+                            <% errors.forEach(function (e) { %>
+                                <li><%= e %></li>
+                            <% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+
+                <form
+                    action="/groups"
+                    method="POST"
+                    enctype="multipart/form-data"
+                    id="groupForm"
+                    novalidate>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="name">שם הקבוצה</label>
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="<%= values.name || '' %>"
+                            required
+                            minlength="2"
+                            maxlength="50">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="city">עיר</label>
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="city"
+                            name="city"
+                            value="<%= values.city || '' %>"
+                            maxlength="40">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label" for="description">תיאור</label>
+
+                        <textarea
+                            class="form-control"
+                            id="description"
+                            name="description"
+                            rows="3"
+                            maxlength="500"><%= values.description || '' %></textarea>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" for="coverImage">
+                            תמונת רקע
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="file"
+                            id="coverImage"
+                            name="coverImage"
+                            accept="image/jpeg,image/png,image/webp">
+
+                        <small class="form-hint">
+                            JPG, PNG או WEBP · עד 2MB
+                        </small>
+                    </div>
+
+                    <button
+                        class="btn btn-brand w-100"
+                        type="submit">
+                        יצירת הקבוצה
+                    </button>
+
+                </form>
+
+                <p class="form-foot">
+                    <a href="/groups">חזרה לקבוצות</a>
+                </p>
+
+            </section>
+
+        </div>
+    </main>
+
+    <%- include('partials/footer') %>
+
+</body>
+</html>
