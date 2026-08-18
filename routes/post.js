@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
+
 const postController = require('../controllers/post');
 const feedController = require('../controllers/feed');
+const interactionController = require('../controllers/interaction');
+
 const { requireAuth } = require('../middleware/auth');
 const upload = require('../config/upload');
 
@@ -10,8 +13,24 @@ router.get('/posts/mine', requireAuth, feedController.mine);
 
 router.get('/posts/new', requireAuth, postController.showCreate);
 router.post('/posts', requireAuth, upload.single('image'), postController.create);
+
 router.get('/posts/:id/edit', requireAuth, postController.showEdit);
 router.post('/posts/:id/edit', requireAuth, postController.update);
 router.post('/posts/:id/delete', requireAuth, postController.destroy);
+
+router.post('/posts/:id/like',
+    requireAuth,
+    interactionController.toggleLike
+);
+
+router.post('/posts/:id/comments',
+    requireAuth,
+    interactionController.addComment
+);
+
+router.post('/posts/:id/comments/:commentId/delete',
+    requireAuth,
+    interactionController.deleteComment
+);
 
 module.exports = router;
