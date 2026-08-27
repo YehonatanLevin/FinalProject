@@ -1,0 +1,59 @@
+<% if (!routes.length) { %>
+
+    <p class="empty-state">
+        לא נמצאו מסלולים התואמים לחיפוש.
+    </p>
+
+<% } else { %>
+
+    <table class="table result-table">
+
+        <thead>
+            <tr>
+                <th>שם</th>
+                <th>עיר</th>
+                <th>מרחק</th>
+                <th>קושי</th>
+                <th>נוצר על ידי</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <% var labels = {
+                easy: 'קל',
+                medium: 'בינוני',
+                hard: 'קשה'
+            }; %>
+
+            <% routes.forEach(function (r) { %>
+
+                <tr>
+
+                    <td><%= r.name %></td>
+
+                    <td><%= r.city %></td>
+
+                    <td>
+                        <%= r.distanceKm %> ק"מ
+                    </td>
+
+                    <td>
+                        <span class="badge-<%= r.difficulty %>">
+                            <%= labels[r.difficulty] %>
+                        </span>
+                    </td>
+
+                    <td>
+                        <%= r.createdBy ? r.createdBy.fullName : '' %>
+                    </td>
+
+                </tr>
+
+            <% }); %>
+
+        </tbody>
+
+    </table>
+
+<% } %>

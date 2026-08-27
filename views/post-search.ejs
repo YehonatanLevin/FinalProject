@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body>
+
+    <%- include('partials/header') %>
+
+    <main>
+
+        <div class="container">
+
+            <h1 class="section-title">
+                חיפוש פוסטים
+            </h1>
+
+
+            <form
+                class="search-bar"
+                id="postSearchForm"
+                action="/posts/search"
+                method="GET">
+
+                <div class="row g-2">
+
+
+                    <div class="col-md-3">
+
+                        <label
+                            class="form-label"
+                            for="q">
+                            טקסט חופשי
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="q"
+                            name="q"
+                            value="<%= values.q %>"
+                            maxlength="60">
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <label
+                            class="form-label"
+                            for="group">
+                            קבוצה
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="group"
+                            name="group">
+
+                            <option value="">
+                                כל הקבוצות
+                            </option>
+
+                            <% groups.forEach(function (g) { %>
+
+                                <option
+                                    value="<%= g._id %>"
+                                    <%= String(values.group) === String(g._id)
+                                        ? 'selected'
+                                        : '' %>>
+
+                                    <%= g.name %>
+
+                                </option>
+
+                            <% }); %>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <label
+                            class="form-label"
+                            for="from">
+                            מתאריך
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="date"
+                            id="from"
+                            name="from"
+                            value="<%= values.from %>">
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <label
+                            class="form-label"
+                            for="to">
+                            עד תאריך
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="date"
+                            id="to"
+                            name="to"
+                            value="<%= values.to %>">
+
+                    </div>
+
+
+                    <div class="col-md-2 search-actions">
+
+                        <button
+                            class="btn btn-brand w-100"
+                            type="submit">
+                            חיפוש
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </form>
+
+
+            <div id="postResults">
+
+                <% if (!posts.length) { %>
+
+                    <p class="empty-state">
+                        לא נמצאו פוסטים התואמים לחיפוש.
+                    </p>
+
+                <% } else { %>
+
+                    <p class="result-count">
+                        <%= posts.length %> תוצאות
+                    </p>
+
+                    <% posts.forEach(function (post) { %>
+
+                        <%- include(
+                            'partials/post-card',
+                            { post: post }
+                        ) %>
+
+                    <% }); %>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/posts.js"></script>
+    <script src="/js/post-search.js"></script>
+
+</body>
+</html>
