@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+
+<head>
+    <%- include('partials/head') %>
+</head>
+
+<body>
+
+    <%- include('partials/header') %>
+
+    <main>
+
+        <div class="container">
+
+            <h1 class="section-title">
+                חיפוש מסלולים
+            </h1>
+
+
+            <form
+                class="search-bar"
+                id="routeSearchForm"
+                action="/routes/search"
+                method="GET">
+
+                <div class="row g-2">
+
+
+                    <div class="col-md-3">
+
+                        <label
+                            class="form-label"
+                            for="city">
+                            עיר
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="text"
+                            id="city"
+                            name="city"
+                            value="<%= values.city %>"
+                            maxlength="40">
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <label
+                            class="form-label"
+                            for="minKm">
+                            מרחק מ-
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            id="minKm"
+                            name="minKm"
+                            value="<%= values.minKm %>"
+                            min="0"
+                            step="0.5">
+
+                    </div>
+
+
+                    <div class="col-md-2">
+
+                        <label
+                            class="form-label"
+                            for="maxKm">
+                            עד
+                        </label>
+
+                        <input
+                            class="form-control"
+                            type="number"
+                            id="maxKm"
+                            name="maxKm"
+                            value="<%= values.maxKm %>"
+                            min="0"
+                            step="0.5">
+
+                    </div>
+
+
+                    <div class="col-md-3">
+
+                        <label
+                            class="form-label"
+                            for="difficulty">
+                            רמת קושי
+                        </label>
+
+                        <select
+                            class="form-control"
+                            id="difficulty"
+                            name="difficulty">
+
+                            <option value="">
+                                הכל
+                            </option>
+
+                            <option
+                                value="easy"
+                                <%= values.difficulty === 'easy'
+                                    ? 'selected'
+                                    : '' %>>
+                                קל
+                            </option>
+
+                            <option
+                                value="medium"
+                                <%= values.difficulty === 'medium'
+                                    ? 'selected'
+                                    : '' %>>
+                                בינוני
+                            </option>
+
+                            <option
+                                value="hard"
+                                <%= values.difficulty === 'hard'
+                                    ? 'selected'
+                                    : '' %>>
+                                קשה
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="col-md-2 search-actions">
+
+                        <button
+                            class="btn btn-brand w-100"
+                            type="submit">
+                            חיפוש
+                        </button>
+
+                    </div>
+
+
+                </div>
+
+            </form>
+
+
+            <div id="routeResults">
+
+                <%- include(
+                    'partials/route-results',
+                    { routes: routes }
+                ) %>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <%- include('partials/footer') %>
+
+    <script src="/js/route-search.js"></script>
+
+</body>
+</html>
