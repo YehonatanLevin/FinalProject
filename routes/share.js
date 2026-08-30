@@ -1,9 +1,8 @@
-/* שלד. A ממלא אותו במשימה A11. */
 const express = require('express');
 const router = express.Router();
+const shareController = require('../controllers/share');
+const { requireAuth } = require('../middleware/auth');
 
-router.post('/posts/:id/share/facebook', (req, res) => {
-    res.status(503).json({ error: 'שיתוף לפייסבוק עדיין לא מומש' });
-});
+router.post('/posts/:id/share/facebook', requireAuth, shareController.toFacebook);
 
 module.exports = router;

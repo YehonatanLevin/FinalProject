@@ -52,12 +52,22 @@
                 </aside>
                 <section class="col-md-8">
                     <h2 class="section-title"><%= isOwn ? 'הפוסטים שלי' : 'הפוסטים של ' + profileUser.fullName %></h2>
-                    <p class="empty-state">עדיין אין פוסטים.</p>
+                    <% if (!posts.length) { %>
+                        <p class="empty-state">עדיין אין פוסטים.</p>
+                    <% } else { %>
+                        <% posts.forEach(function (post) { %>
+                            <%- include('partials/post-card', { post: post }) %>
+                        <% }); %>
+                        <% if (isOwn && total > posts.length) { %>
+                            <a class="btn btn-outline-brand btn-sm" href="/posts/mine">כל <%= total %> הפוסטים שלי</a>
+                        <% } %>
+                    <% } %>
                 </section>
             </div>
         </div>
     </main>
     <%- include('partials/footer') %>
     <script src="/js/friends.js"></script>
+    <script src="/js/share.js"></script>
 </body>
 </html>
