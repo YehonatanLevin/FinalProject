@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="form-card form-card-wide">
+                <h1 class="form-title">מסלול חדש</h1>
+                <% if (errors.length) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <ul class="error-list">
+                            <% errors.forEach(function (e) { %><li><%= e %></li><% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+                <form action="/routes" method="POST" id="routeForm" novalidate>
+                    <%- include('partials/route-fields', { values: values }) %>
+                    <button class="btn btn-brand w-100" type="submit">שמירת המסלול</button>
+                </form>
+                <p class="form-foot"><a href="/routes">חזרה למסלולים</a></p>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

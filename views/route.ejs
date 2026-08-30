@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="route-detail" data-route-id="<%= route._id %>">
+                <div class="feed-head">
+                    <h1 class="section-title"><%= route.name %></h1>
+                    <% if (String(route.createdBy._id) === String(currentUser._id)) { %>
+                        <a class="btn btn-outline-brand btn-sm" href="/routes/<%= route._id %>/edit">עריכה</a>
+                    <% } %>
+                </div>
+                <div class="row g-4">
+                    <div class="col-md-7">
+                        <div class="stat-card text-start">
+                            <p class="route-meta">
+                                <span class="badge-<%= route.difficulty %>"><%= labels[route.difficulty] %></span>
+                                · <%= route.distanceKm %> ק"מ · <%= route.city %>
+                            </p>
+                            <p class="route-address"><%= route.address %></p>
+                            <% if (route.description) { %>
+                                <p><%= route.description %></p>
+                            <% } %>
+                            <p class="route-meta">נוצר על ידי <%= route.createdBy.fullName %></p>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="weather-card" id="weatherCard">
+                            <h2 class="section-title">מזג האוויר במסלול</h2>
+                            <p class="weather-loading">טוען...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="/js/weather.js"></script>
+</body>
+</html>

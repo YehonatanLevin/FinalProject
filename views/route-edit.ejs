@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <section class="form-card form-card-wide">
+                <h1 class="form-title">עריכת מסלול</h1>
+                <% if (errors.length) { %>
+                    <div class="alert alert-danger" role="alert">
+                        <ul class="error-list">
+                            <% errors.forEach(function (e) { %><li><%= e %></li><% }); %>
+                        </ul>
+                    </div>
+                <% } %>
+                <form action="/routes/<%= route._id %>/edit" method="POST" id="routeForm" novalidate>
+                    <%- include('partials/route-fields', { values: route }) %>
+                    <button class="btn btn-brand w-100" type="submit">שמירה</button>
+                </form>
+
+                <section class="danger-zone">
+                    <h2>מחיקת המסלול</h2>
+                    <p>המסלול יימחק לצמיתות.</p>
+                    <form action="/routes/<%= route._id %>/delete" method="POST" id="deleteRouteForm">
+                        <button class="btn btn-outline-danger btn-sm" type="submit">מחיקת המסלול</button>
+                    </form>
+                </section>
+
+                <p class="form-foot"><a href="/routes/<%= route._id %>">חזרה למסלול</a></p>
+            </section>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>

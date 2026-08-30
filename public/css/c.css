@@ -1,1 +1,79 @@
 /* מסלול C - מסלולים, מפה, גרפים */
+/* ---------- וידאו בדף הבית ---------- */
+.hero-video { position: relative; padding: 0; overflow: hidden; border-bottom: none; }
+.hero-media {
+    width: 100%; height: 420px; object-fit: cover; display: block;
+    filter: saturate(.9);
+}
+.hero-overlay {
+    position: absolute; inset: 0;
+    display: flex; align-items: center;
+    background: linear-gradient(90deg, rgba(22,32,42,.78), rgba(22,32,42,.35));
+}
+.hero-overlay h1 { color: #fff; font-size: clamp(2rem, 5vw, 3.25rem); margin: 0 0 .5rem;
+    text-shadow: 0 2px 12px rgba(0,0,0,.45); }
+.hero-overlay .hero-lead { color: rgba(255,255,255,.9); margin: 0 0 1.5rem; }
+.btn-outline-light {
+    border: 1px solid rgba(255,255,255,.75); color: #fff;
+    border-radius: var(--radius); font-weight: 600;
+    transition: background-color .18s ease;
+}
+.btn-outline-light:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+.feature-card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1.25rem; height: 100%;
+    transition: border-color .18s ease, transform .18s ease;
+}
+.feature-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+.feature-card h3 { font-size: 1rem; margin: 0 0 .4rem; color: var(--brand); }
+.feature-card p { font-size: .9rem; color: var(--ink-soft); margin: 0; }
+
+/* ---------- מסלולים ---------- */
+.route-card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1rem; height: 100%;
+    transition: border-color .18s ease, transform .18s ease;
+}
+.route-card:hover { border-color: var(--brand); transform: translateY(-2px); }
+.route-card-head { display: flex; justify-content: space-between; align-items: start; gap: .5rem; }
+.route-name { font-weight: 700; color: var(--ink); text-decoration: none; }
+.route-name:hover { color: var(--brand); }
+.route-meta { color: var(--ink-soft); font-size: .85rem; margin: .3rem 0; }
+.route-address { font-size: .85rem; color: var(--ink); margin: 0; }
+
+/* ---------- מפה ---------- */
+.map-canvas {
+    height: 540px; border-radius: var(--radius);
+    border: 1px solid var(--line); overflow: hidden;
+}
+.map-hint { color: var(--ink-soft); font-size: .9rem; margin-bottom: 1rem; }
+.map-panel {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1.25rem;
+}
+.map-panel-hint { color: var(--ink-soft); font-size: .875rem; }
+
+/* ---------- מזג אוויר ---------- */
+.weather-card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1.25rem; text-align: center;
+}
+.weather-loading { color: var(--ink-soft); margin: 0; }
+.weather-temp { display: block; font-size: 3rem; font-weight: 700; color: var(--brand); line-height: 1; }
+.weather-desc { display: block; font-weight: 600; margin-top: .25rem; }
+.weather-meta { color: var(--ink-soft); font-size: .85rem; margin: .5rem 0 0; }
+
+/* ---------- גרפים ---------- */
+.chart-card {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem;
+}
+.chart-title {
+    font-size: 1rem; margin: 0 0 1rem;
+    padding-bottom: .5rem; border-bottom: 2px solid var(--brand);
+    display: inline-block;
+}
+.chart-holder { width: 100%; min-height: 280px; }
+.chart-holder svg { overflow: visible; }
+.progress-text { color: var(--ink-soft); font-size: .9rem; margin: .75rem 0 0; }
