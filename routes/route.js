@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const routeController = require('../controllers/route');
+const mapController = require('../controllers/map');
 const { requireAuth } = require('../middleware/auth');
+
+router.get('/map', requireAuth, mapController.index);
 
 router.get('/routes', requireAuth, routeController.index);
 router.get('/routes/new', requireAuth, routeController.showCreate);
