@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <div class="feed-head">
+                <h1 class="section-title">מסלולים</h1>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-brand btn-sm" href="/routes/search">חיפוש מתקדם</a>
+                    <a class="btn btn-brand btn-sm" href="/routes/new">מסלול חדש</a>
+                </div>
+            </div>
+            <% if (!routes.length) { %>
+                <p class="empty-state">עדיין לא נוספו מסלולים.</p>
+            <% } else { %>
+                <div class="row g-3">
+                    <% routes.forEach(function (r) { %>
+                        <div class="col-md-6 col-lg-4">
+                            <article class="route-card">
+                                <div class="route-card-head">
+                                    <a class="route-name" href="/routes/<%= r._id %>"><%= r.name %></a>
+                                    <span class="badge-<%= r.difficulty %>"><%= labels[r.difficulty] %></span>
+                                </div>
+                                <p class="route-meta"><%= r.city %> · <%= r.distanceKm %> ק"מ</p>
+                                <p class="route-address"><%= r.address %></p>
+                            </article>
+                        </div>
+                    <% }); %>
+                </div>
+            <% } %>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+</body>
+</html>
