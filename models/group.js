@@ -36,6 +36,7 @@ const groupSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
 groupSchema.methods.isManager = function (userId) {
     return this.creator.equals(userId);
 };
@@ -43,5 +44,10 @@ groupSchema.methods.isManager = function (userId) {
 groupSchema.methods.hasMember = function (userId) {
     return this.members.some(m => m.equals(userId));
 };
+
+/* אינדקסים - דרישה C13 */
+groupSchema.index({ city: 1 });
+groupSchema.index({ members: 1 });
+groupSchema.index({ creator: 1 });
 
 module.exports = mongoose.model('Group', groupSchema);

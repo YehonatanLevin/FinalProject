@@ -31,7 +31,8 @@ const routeSchema = new mongoose.Schema({
         required: [true, 'קו אורך הוא שדה חובה'],
         min: [-180, 'קו אורך לא תקין'],
         max: [180, 'קו אורך לא תקין']
-    },    distanceKm: {
+    },
+    distanceKm: {
         type: Number,
         required: [true, 'אורך המסלול הוא שדה חובה'],
         min: [0.1, 'אורך המסלול חייב להיות גדול מ-0'],
@@ -59,5 +60,10 @@ const routeSchema = new mongoose.Schema({
 }, {
     timestamps: true
 });
+
+/* אינדקסים - דרישה C13 */
+routeSchema.index({ city: 1, distanceKm: 1, difficulty: 1 });
+routeSchema.index({ createdBy: 1 });
+routeSchema.index({ name: 1 });
 
 module.exports = mongoose.model('Route', routeSchema);
