@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const routeController = require('../controllers/route');
 const mapController = require('../controllers/map');
+const weatherController = require('../controllers/weather');
 const { requireAuth } = require('../middleware/auth');
 
 router.get('/map', requireAuth, mapController.index);
@@ -14,5 +15,7 @@ router.get('/routes/:id', requireAuth, routeController.show);
 router.get('/routes/:id/edit', requireAuth, routeController.showEdit);
 router.post('/routes/:id/edit', requireAuth, routeController.update);
 router.post('/routes/:id/delete', requireAuth, routeController.destroy);
+
+router.get('/api/weather/:id', requireAuth, weatherController.forRoute);
 
 module.exports = router;
