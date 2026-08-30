@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <h1 class="section-title">סטטיסטיקה</h1>
+
+            <div class="row g-4">
+                <section class="col-lg-8">
+                    <div class="chart-card">
+                        <h2 class="chart-title">קילומטרים לכל קבוצה — <span id="chartMonth"></span></h2>
+                        <div id="groupKmChart" class="chart-holder"></div>
+                    </div>
+
+                    <div class="chart-card">
+                        <h2 class="chart-title">הקילומטרים שלי — מצטבר לאורך 8 שבועות</h2>
+                        <div id="weeklyKmChart" class="chart-holder"></div>
+                    </div>
+                </section>
+
+                <aside class="col-lg-4">
+                    <div class="chart-card text-center">
+                        <h2 class="chart-title">היעד החודשי שלי</h2>
+                        <canvas id="progressRing" width="220" height="220"></canvas>
+                        <p class="progress-text" id="progressText"></p>
+                    </div>
+
+                    <div class="chart-card">
+                        <h2 class="chart-title">לפי רמת קושי</h2>
+                        <table class="table result-table" id="difficultyTable">
+                            <thead>
+                                <tr><th>קושי</th><th>ריצות</th><th>ממוצע</th></tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="/js/d3.min.js"></script>
+    <script src="/js/charts.js"></script>
+    <script src="/js/progress-ring.js"></script>
+</body>
+</html>
