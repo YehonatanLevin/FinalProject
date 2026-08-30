@@ -6,22 +6,48 @@
 <body>
     <%- include('partials/header') %>
     <main>
-        <section class="hero">
-            <div class="container">
-                <h1>רצים ביחד</h1>
-                <p class="hero-lead">קבוצות ריצה, מסלולים ודיווחים — במקום אחד.</p>
-                <a class="btn btn-brand" href="/register">הצטרפו</a>
+        <section class="hero hero-video">
+            <video class="hero-media" autoplay muted loop playsinline poster="/images/default-group.png">
+                <source src="/video/intro.mp4" type="video/mp4">
+                הדפדפן שלכם אינו תומך בהצגת וידאו.
+            </video>
+            <div class="hero-overlay">
+                <div class="container">
+                    <h1>רצים ביחד</h1>
+                    <p class="hero-lead">קבוצות ריצה, מסלולים ודיווחים — במקום אחד.</p>
+                    <a class="btn btn-brand" href="/register">הצטרפו</a>
+                    <a class="btn btn-outline-light" href="/login">התחברות</a>
+                </div>
             </div>
         </section>
         <div class="container">
             <div class="row g-4">
                 <section class="col-lg-8">
-                    <h2 class="section-title">הפיד</h2>
-                    <p class="empty-state">עדיין אין פוסטים. הצטרפו לקבוצה כדי להתחיל.</p>
+                    <h2 class="section-title">איך זה עובד</h2>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <article class="feature-card">
+                                <h3>דווחו על ריצה</h3>
+                                <p>מרחק, זמן ומסלול. הדיווחים מזינים את הגרפים והיעד החודשי.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="feature-card">
+                                <h3>הצטרפו לקבוצה</h3>
+                                <p>קבוצות לפי עיר או מועדון, עם פיד משלהן.</p>
+                            </article>
+                        </div>
+                        <div class="col-md-4">
+                            <article class="feature-card">
+                                <h3>מצאו מסלול</h3>
+                                <p>מפה של כל המסלולים, עם סינון לפי מרחק ורמת קושי.</p>
+                            </article>
+                        </div>
+                    </div>
                 </section>
                 <aside class="col-lg-4">
-                    <h2 class="section-title">קבוצות פעילות</h2>
-                    <p class="empty-state">עדיין אין קבוצות.</p>
+                    <h2 class="section-title">למה RunTogether</h2>
+                    <p class="empty-state">הצטרפו כדי לראות את הפיד, הקבוצות והסטטיסטיקות שלכם.</p>
                 </aside>
             </div>
         </div>
