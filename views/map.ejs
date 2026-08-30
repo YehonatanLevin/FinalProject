@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <%- include('partials/head') %>
+    <link href="/css/leaflet.css" rel="stylesheet">
+</head>
+<body>
+    <%- include('partials/header') %>
+    <main>
+        <div class="container">
+            <h1 class="section-title">מפת מסלולים</h1>
+            <p class="map-hint">לחיצה על המפה מוסיפה מסלול חדש בנקודה שנבחרה. לחיצה על עיגול פותחת את פרטי המסלול.</p>
+            <div class="row g-4">
+                <div class="col-lg-8">
+                    <div id="map" class="map-canvas"></div>
+                </div>
+                <aside class="col-lg-4">
+                    <section class="map-panel" id="mapPanel">
+                        <h2 class="section-title">מסלול חדש</h2>
+                        <p class="map-panel-hint">בחרו נקודה על המפה כדי להתחיל.</p>
+                        <form id="mapRouteForm" hidden>
+                            <input type="hidden" id="mapLat" name="lat">
+                            <input type="hidden" id="mapLng" name="lng">
+                            <div class="mb-2">
+                                <label class="form-label" for="mapName">שם</label>
+                                <input class="form-control" type="text" id="mapName" name="name" required maxlength="80">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="mapAddress">כתובת</label>
+                                <input class="form-control" type="text" id="mapAddress" name="address" required maxlength="200">
+                            </div>
+                            <div class="mb-2">
+                                <label class="form-label" for="mapCity">עיר</label>
+                                <input class="form-control" type="text" id="mapCity" name="city" maxlength="40">
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-6">
+                                    <label class="form-label" for="mapDistance">ק"מ</label>
+                                    <input class="form-control" type="number" id="mapDistance" name="distanceKm"
+                                           required min="0.1" max="500" step="0.1">
+                                </div>
+                                <div class="col-6">
+                                    <label class="form-label" for="mapDifficulty">קושי</label>
+                                    <select class="form-control" id="mapDifficulty" name="difficulty" required>
+                                        <option value="easy">קל</option>
+                                        <option value="medium">בינוני</option>
+                                        <option value="hard">קשה</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-brand btn-sm flex-fill" type="submit">שמירה</button>
+                                <button class="btn btn-outline-brand btn-sm" type="button" id="mapCancel">ביטול</button>
+                            </div>
+                        </form>
+                        <div id="mapMessage"></div>
+                    </section>
+                </aside>
+            </div>
+        </div>
+    </main>
+    <%- include('partials/footer') %>
+    <script src="/js/leaflet.js"></script>
+    <script src="/js/map.js"></script>
+</body>
+</html>
