@@ -1,21 +1,36 @@
 const mongoose = require('mongoose');
 const User = require('../models/user');
 const Group = require('../models/group');
+const Post = require('../models/post');
 const escapeRegex = require('../utils/escapeRegex');
 
 const EDIT_TITLE = 'עריכת פרופיל';
 
-function renderProfile(res, viewer, profileUser, title) {
+const PROFILE_POSTS = 5;
+
+async function renderProfile(res, viewer, profileUser, title) {
     const isOwn = profileUser._id.equals(viewer._id);
     const isFriend = viewer.friends.some(f => f.equals(profileUser._id));
-    res.render('profile', { title, profileUser, isOwn, isFriend });
+
+    const filter = { author: profileUser._id };
+    const [posts, total] = await Promise.all([
+        Post.find(filter)
+            .populate('author', 'fullName username profileImage')
+            .populate('group', 'name')
+            .populate('run.route', 'name')
+            .sort({ createdAt: -1 })
+            .limit(PROFILE_POSTS),
+        Post.countDocuments(filter)
+    ]);
+
+    res.render('profile', { title, profileUser, isOwn, isFriend, posts, total });
 }
 
 exports.profile = async (req, res, next) => {
     try {
         const user = await User.findById(req.user._id)
             .populate('friends', 'username fullName profileImage');
-        renderProfile(res, req.user, user, 'הפרופיל שלי');
+        await renderProfile(res, req.user, user, 'הפרופיל שלי');
     } catch (err) {
         next(err);
     }
@@ -31,7 +46,7 @@ exports.showUser = async (req, res, next) => {
         if (!user) {
             return res.status(404).render('error', { title: 'לא נמצא', message: 'המשתמש לא נמצא' });
         }
-        renderProfile(res, req.user, user, user.fullName);
+        await renderProfile(res, req.user, user, user.fullName);
     } catch (err) {
         next(err);
     }
@@ -176,6 +191,9 @@ exports.destroy = async (req, res, next) => {
         await User.updateMany({ friends: userId }, { $pull: { friends: userId } });
         await Group.updateMany({ members: userId }, { $pull: { members: userId } });
         await Group.deleteMany({ creator: userId });
+        await Post.deleteMany({ author: userId });
+        await Post.updateMany({ likes: userId }, { $pull: { likes: userId } });
+        await Post.updateMany({}, { $pull: { comments: { author: userId } } });
         await User.deleteOne({ _id: userId });
 
         req.session.destroy(() => {
