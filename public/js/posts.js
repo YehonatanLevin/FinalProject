@@ -82,9 +82,13 @@ $(function () {
 
                 $card.find('.comment-list').append(
                     '<li class="comment">' +
+                    '<span class="comment-author">' +
+                    escapeHtml(data.comment.author.fullName) +
+                    '</span>' +
                     '<span class="comment-text">' +
                     escapeHtml(data.comment.text) +
                     '</span>' +
+                    '<span class="comment-time">כרגע</span>' +
                     '</li>'
                 );
 

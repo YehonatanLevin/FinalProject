@@ -122,6 +122,7 @@ exports.posts = async (req, res, next) => {
             Post.find(filter)
                 .populate('author', 'fullName username profileImage')
                 .populate('group', 'name')
+                .populate('comments.author', 'fullName profileImage')
                 .sort({ createdAt: -1 })
                 .limit(LIMIT),
 

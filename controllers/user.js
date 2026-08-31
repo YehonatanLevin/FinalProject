@@ -18,6 +18,7 @@ async function renderProfile(res, viewer, profileUser, title) {
             .populate('author', 'fullName username profileImage')
             .populate('group', 'name')
             .populate('run.route', 'name')
+            .populate('comments.author', 'fullName profileImage')
             .sort({ createdAt: -1 })
             .limit(PROFILE_POSTS),
         Post.countDocuments(filter)

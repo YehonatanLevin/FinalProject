@@ -44,7 +44,12 @@ const TEXTS = [
 ];
 
 /* תמונות לפוסטים מסוג image. קבצים שקיימים ב-public/images ונמצאים בגיט. */
-const POST_IMAGES = ['/images/default-group.png', '/images/default-avatar.png'];
+const POST_IMAGES = [
+    '/images/posts/sunrise-run.png',
+    '/images/posts/park-trail.png',
+    '/images/posts/coastal-run.png',
+    '/images/posts/evening-run.png'
+];
 
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 const rand = (min, max) => Math.random() * (max - min) + min;
@@ -221,7 +226,10 @@ async function seed() {
                 author: pick(users)._id,
                 text: pick(['כל הכבוד!', 'מסלול מעולה', 'איזה קצב', 'מצטרף בפעם הבאה',
                             'תותח', 'ריצה יפה', 'איפה זה בדיוק?']),
-                createdAt: new Date(post.createdAt.getTime() + randInt(1, 48) * 3600000)
+                createdAt: new Date(Math.min(
+                    Date.now() - randInt(1, 90) * 60000,
+                    post.createdAt.getTime() + randInt(1, 48) * 3600000
+                ))
             });
         }
 
