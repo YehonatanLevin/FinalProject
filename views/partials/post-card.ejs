@@ -68,7 +68,11 @@
     <div class="comment-area" hidden>
         <ul class="comment-list">
             <% post.comments.forEach(function (c) { %>
-                <li class="comment"><span class="comment-text"><%= c.text %></span></li>
+                <li class="comment">
+                    <span class="comment-author"><%= c.author && c.author.fullName ? c.author.fullName : 'משתמש שנמחק' %></span>
+                    <span class="comment-text"><%= c.text %></span>
+                    <span class="comment-time"><%= timeAgo(c.createdAt) %></span>
+                </li>
             <% }); %>
         </ul>
         <form class="comment-form">

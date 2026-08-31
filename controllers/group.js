@@ -100,6 +100,7 @@ exports.show = async (req, res, next) => {
 
         const posts = await Post.find({ group: group._id })
             .populate('author', 'fullName username profileImage')
+            .populate('comments.author', 'fullName profileImage')
             .sort({ createdAt: -1 })
             .limit(20);
 

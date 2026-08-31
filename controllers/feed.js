@@ -25,6 +25,7 @@ exports.index = async (req, res, next) => {
                 .populate('author', 'fullName username profileImage')
                 .populate('group', 'name')
                 .populate('run.route', 'name')
+                .populate('comments.author', 'fullName profileImage')
                 .sort({ createdAt: -1 })
                 .skip((page - 1) * PAGE_SIZE)
                 .limit(PAGE_SIZE),
@@ -59,6 +60,7 @@ exports.mine = async (req, res, next) => {
                 .populate('author', 'fullName username profileImage')
                 .populate('group', 'name')
                 .populate('run.route', 'name')
+                .populate('comments.author', 'fullName profileImage')
                 .sort({ createdAt: -1 })
                 .skip((page - 1) * PAGE_SIZE)
                 .limit(PAGE_SIZE),
