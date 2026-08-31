@@ -11,7 +11,7 @@
 
     /* גרף א' - עמודות: ק"מ לכל קבוצה בחודש הנוכחי */
     function barChart(rows) {
-        var margin = { top: 16, right: 16, bottom: 70, left: 52 };
+        var margin = { top: 16, right: 16, bottom: 46, left: 52 };
         var box = size('#groupKmChart');
         var width = box.width - margin.left - margin.right;
         var height = box.height - margin.top - margin.bottom;
@@ -33,13 +33,30 @@
         var y = d3.scaleLinear().domain([0, d3.max(rows, function (d) { return d.value; }) * 1.1])
             .range([height, 0]);
 
+        /*
+         * שמות הקבוצות בעברית ארוכים מדי לתוויות מסובבות - הן גלשו
+         * מתחת לגובה ה-SVG ונחתכו. לכן תוויות אופקיות, מקוצרות לפי
+         * רוחב העמודה בפועל, והשם המלא נשאר ב-title לריחוף.
+         */
+        var maxChars = Math.max(6, Math.floor((x.step() - 8) / 5.6));
+
+        function shorten(text) {
+            return text.length > maxChars
+                ? text.slice(0, maxChars - 1) + '\u2026'
+                : text;
+        }
+
         svg.append('g').attr('transform', 'translate(0,' + height + ')')
             .call(d3.axisBottom(x))
             .selectAll('text')
-            .attr('transform', 'rotate(-35)')
-            .style('text-anchor', 'end')
+            .style('text-anchor', 'middle')
             .style('fill', INK_SOFT)
-            .style('font-size', '11px');
+            .style('font-size', '11px')
+            .each(function (d) {
+                var node = d3.select(this);
+                node.text(shorten(d));
+                node.append('title').text(d);
+            });
 
         svg.append('g').call(d3.axisLeft(y).ticks(5))
             .selectAll('text').style('fill', INK_SOFT);
