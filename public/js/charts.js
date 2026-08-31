@@ -11,7 +11,7 @@
 
     /* גרף א' - עמודות: ק"מ לכל קבוצה בחודש הנוכחי */
     function barChart(rows) {
-        var margin = { top: 16, right: 16, bottom: 70, left: 52 };
+        var margin = { top: 16, right: 16, bottom: 58, left: 52 };
         var box = size('#groupKmChart');
         var width = box.width - margin.left - margin.right;
         var height = box.height - margin.top - margin.bottom;
@@ -33,13 +33,65 @@
         var y = d3.scaleLinear().domain([0, d3.max(rows, function (d) { return d.value; }) * 1.1])
             .range([height, 0]);
 
+        /*
+         * שמות הקבוצות בעברית ארוכים מדי לתוויות מסובבות - הן גלשו
+         * מתחת לגובה ה-SVG ונחתכו. לכן תוויות אופקיות, מקוצרות לפי
+         * רוחב העמודה בפועל, והשם המלא נשאר ב-title לריחוף.
+         */
+        var maxChars = Math.max(6, Math.floor((x.step() - 8) / 5.6));
+
+        /* שובר את שם הקבוצה לשתי שורות לפי מילים, כדי שלא ייחתך */
+        function wrapLabel(text) {
+            if (text.length <= maxChars) {
+                return [text];
+            }
+
+            var words = text.split(' ');
+            var lines = [];
+            var current = '';
+
+            for (var i = 0; i < words.length; i++) {
+                var candidate = current ? current + ' ' + words[i] : words[i];
+                if (candidate.length <= maxChars || current === '') {
+                    current = candidate;
+                } else {
+                    lines.push(current);
+                    current = words[i];
+                }
+            }
+            lines.push(current);
+
+            if (lines.length > 2) {
+                lines = [lines[0], lines.slice(1).join(' ')];
+            }
+
+            return lines.map(function (line) {
+                return line.length > maxChars
+                    ? line.slice(0, maxChars - 1) + '\u2026'
+                    : line;
+            });
+        }
+
         svg.append('g').attr('transform', 'translate(0,' + height + ')')
             .call(d3.axisBottom(x))
             .selectAll('text')
-            .attr('transform', 'rotate(-35)')
-            .style('text-anchor', 'end')
+            .style('text-anchor', 'middle')
             .style('fill', INK_SOFT)
-            .style('font-size', '11px');
+            .style('font-size', '11px')
+            .attr('dy', null)
+            .each(function (d) {
+                var node = d3.select(this);
+                node.text(null);
+
+                wrapLabel(d).forEach(function (line, i) {
+                    node.append('tspan')
+                        .attr('x', 0)
+                        .attr('dy', i === 0 ? '0.71em' : '1.15em')
+                        .text(line);
+                });
+
+                node.append('title').text(d);
+            });
 
         svg.append('g').call(d3.axisLeft(y).ticks(5))
             .selectAll('text').style('fill', INK_SOFT);
