@@ -31,9 +31,6 @@ app.use('/', require('./routes/post'));
 app.use('/', require('./routes/route'));
 app.use('/', require('./routes/stats'));
 
-/* אחרון: דפים שעדיין לא מומשו. נמחק כשהכל יושלם. */
-app.use('/', require('./routes/placeholder'));
-
 app.use(notFound);
 app.use(errorHandler);
 

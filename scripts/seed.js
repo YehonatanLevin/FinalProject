@@ -43,6 +43,9 @@ const TEXTS = [
     'אימון טמפו. קצה של קצת מעל הנוח, בדיוק כמו בתוכנית.'
 ];
 
+/* תמונות לפוסטים מסוג image. קבצים שקיימים ב-public/images ונמצאים בגיט. */
+const POST_IMAGES = ['/images/default-group.png', '/images/default-avatar.png'];
+
 const pick = arr => arr[Math.floor(Math.random() * arr.length)];
 const rand = (min, max) => Math.random() * (max - min) + min;
 const randInt = (min, max) => Math.floor(rand(min, max + 1));
@@ -52,6 +55,15 @@ function daysAgo(n) {
     d.setDate(d.getDate() - n);
     d.setHours(randInt(6, 21), randInt(0, 59), 0, 0);
     return d;
+}
+
+/*
+ * תאריך מוטה לתקופה האחרונה.
+ * 60% מהפוסטים ב-55 הימים האחרונים, כדי שגרף הקו וטבעת ההתקדמות
+ * לא ייראו ריקים, והשאר מפוזרים עד 150 יום אחורה - דרישה 28.
+ */
+function recentDate() {
+    return Math.random() < 0.6 ? daysAgo(randInt(0, 55)) : daysAgo(randInt(56, 150));
 }
 
 async function seed() {
@@ -114,15 +126,16 @@ async function seed() {
     console.log('יוצר מסלולים...');
     const routes = [];
     for (let i = 0; i < ROUTE_NAMES.length; i++) {
+        const routeCity = pick(CITIES);
         routes.push(await Route.create({
             name: ROUTE_NAMES[i],
             description: 'מסלול מסומן, מתאים לריצות ' + pick(['בוקר', 'ערב', 'סוף שבוע']) + '.',
-            address: 'רחוב ' + randInt(1, 90) + ', ' + pick(CITIES),
+            address: 'רחוב ' + randInt(1, 90) + ', ' + routeCity,
             lat: rand(31.2, 33.0),
             lng: rand(34.7, 35.6),
             distanceKm: Math.round(rand(3, 25) * 10) / 10,
             difficulty: pick(['easy', 'medium', 'hard']),
-            city: pick(CITIES),
+            city: routeCity,
             createdBy: pick(users)._id
         }));
     }
@@ -137,11 +150,15 @@ async function seed() {
 
         const post = new Post({
             author: author._id,
-            type: type === 'image' ? 'text' : type,
+            type: type,
             content: pick(TEXTS),
             group: inGroup ? pick(groups)._id : null,
-            createdAt: daysAgo(randInt(0, 150))
+            createdAt: recentDate()
         });
+
+        if (type === 'image') {
+            post.image = pick(POST_IMAGES);
+        }
 
         if (type === 'run') {
             const route = pick(routes);
@@ -156,6 +173,39 @@ async function seed() {
         await post.save();
         await Post.updateOne({ _id: post._id }, { $set: { createdAt: post.createdAt } });
         posts.push(post);
+    }
+
+    /*
+     * דיווחי ריצה מובטחים: לכל משתמש שלוש ריצות בחודש הנוכחי
+     * ובתוך חלון 8 השבועות. בלי זה, חלק מהמשתמשים נכנסים לדף
+     * הסטטיסטיקה וגרף הקו וטבעת ההתקדמות מוצגים ריקים.
+     */
+    console.log('מוסיף דיווחי ריצה אחרונים לכל משתמש...');
+    for (const user of users) {
+        const myGroups = groups.filter(g => g.members.some(m => m.equals(user._id)));
+
+        for (const ago of [randInt(1, 12), randInt(13, 30), randInt(31, 52)]) {
+            const route = pick(routes);
+            const distance = Math.round(rand(4, 14) * 10) / 10;
+            const when = daysAgo(ago);
+
+            const post = new Post({
+                author: user._id,
+                type: 'run',
+                content: pick(TEXTS),
+                group: myGroups.length ? pick(myGroups)._id : null,
+                run: {
+                    distanceKm: distance,
+                    durationMin: Math.round(distance * rand(4.5, 7)),
+                    route: route._id
+                },
+                createdAt: when
+            });
+
+            await post.save();
+            await Post.updateOne({ _id: post._id }, { $set: { createdAt: when } });
+            posts.push(post);
+        }
     }
 
     console.log('מוסיף לייקים ותגובות...');
