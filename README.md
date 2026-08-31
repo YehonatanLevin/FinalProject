@@ -32,11 +32,13 @@ cp .env.example .env
 | `MONGODB_URI` | מחרוזת החיבור ל-MongoDB |
 | `PORT` | פורט השרת (ברירת מחדל 3000) |
 | `SESSION_SECRET` | מחרוזת אקראית לחתימת ה-session |
-| `MAPS_API_KEY` | מפתח לשירות המפות |
 | `FB_PAGE_ID` | מזהה עמוד הפייסבוק שאליו מפרסמים |
 | `FB_ACCESS_TOKEN` | Page Access Token מ-Graph API |
 
 הקובץ `.env` נמצא ב-`.gitignore` ואינו נכנס לגיט.
+
+`MONGODB_URI` ו-`SESSION_SECRET` הם שדות חובה. בלי `SESSION_SECRET`
+השרת עולה עם מחרוזת ברירת מחדל, וזה מתאים לפיתוח בלבד.
 
 כל עוד `FB_PAGE_ID` ו-`FB_ACCESS_TOKEN` ריקים, שיתוף לפייסבוק מחזיר 503
 עם הודעה ברורה, ושאר האפליקציה עובדת כרגיל.
@@ -52,7 +54,7 @@ npm start
 ## נתוני דמו
 
 ```bash
-node scripts/seed.js
+node --env-file=.env scripts/seed.js
 ```
 
 הסקריפט מייצר משתמשים, קבוצות, מסלולים ופוסטים לאורך מספר חודשים,

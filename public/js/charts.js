@@ -152,6 +152,31 @@
         tr.append('td').text(function (d) { return d.avgDistance + ' ק"מ'; });
     }
 
+    /*
+     * אגרגציה א' - $group: סך הק"מ בכל קבוצה, מפוצל לפי חודש.
+     * המקור: /api/stats/km-by-group-month
+     */
+    var MONTHS = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני',
+                  'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+
+    function groupMonthTable(rows) {
+        var tbody = d3.select('#groupMonthTable tbody');
+        tbody.selectAll('*').remove();
+
+        if (!rows.length) {
+            tbody.append('tr').append('td').attr('colspan', 5)
+                .style('color', INK_SOFT).text('אין דיווחי ריצה בקבוצות עדיין.');
+            return;
+        }
+
+        var tr = tbody.selectAll('tr').data(rows).enter().append('tr');
+        tr.append('td').text(function (d) { return d.groupName; });
+        tr.append('td').text(function (d) { return MONTHS[d.month - 1] + ' ' + d.year; });
+        tr.append('td').text(function (d) { return d.runCount; });
+        tr.append('td').text(function (d) { return d.avgKm + ' ק"מ'; });
+        tr.append('td').text(function (d) { return d.totalKm + ' ק"מ'; });
+    }
+
     $(function () {
         $.ajax({ url: '/api/charts/group-km', dataType: 'json' })
             .done(function (data) {
@@ -171,5 +196,12 @@
         $.ajax({ url: '/api/stats/by-difficulty', dataType: 'json' })
             .done(function (data) { difficultyTable(data.rows); })
             .fail(function () {});
+
+        $.ajax({ url: '/api/stats/km-by-group-month', dataType: 'json' })
+            .done(function (data) { groupMonthTable(data.rows); })
+            .fail(function () {
+                $('#groupMonthTable tbody')
+                    .html('<tr><td colspan="5">טעינת הנתונים נכשלה.</td></tr>');
+            });
     });
 })();
