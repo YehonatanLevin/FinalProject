@@ -2,14 +2,9 @@
     var COLORS = { easy: '#1b4d3e', medium: '#d9642a', hard: '#8a2020' };
     var LABELS = { easy: 'קל', medium: 'בינוני', hard: 'קשה' };
 
-    var map = L.map('map').setView([32.09, 34.85], 9);
-
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        maxZoom: 18,
-        attribution: '© OpenStreetMap'
-    }).addTo(map);
-
-    var layer = L.layerGroup().addTo(map);
+    var map = null;
+    var info = null;
+    var markers = [];
     var pending = null;
 
     function escapeHtml(v) { return $('<div>').text(v == null ? '' : v).html(); }
@@ -22,18 +17,43 @@
             (r.isMine ? ' · <a href="/routes/' + escapeHtml(r._id) + '/edit">עריכה</a>' : '');
     }
 
+    /* עיגול צבעוני לפי רמת הקושי, במקום סיכה רגילה */
+    function circle(color, scale, opacity) {
+        return {
+            path: google.maps.SymbolPath.CIRCLE,
+            scale: scale,
+            fillColor: color,
+            fillOpacity: opacity,
+            strokeColor: color,
+            strokeWeight: 2
+        };
+    }
+
+    function clearMarkers() {
+        markers.forEach(function (m) { m.setMap(null); });
+        markers = [];
+    }
+
     function load() {
         $.ajax({ url: '/routes/json', dataType: 'json' })
             .done(function (data) {
-                layer.clearLayers();
+                clearMarkers();
                 data.routes.forEach(function (r) {
-                    L.circleMarker([r.lat, r.lng], {
-                        radius: 8,
-                        color: COLORS[r.difficulty] || '#1b4d3e',
-                        fillColor: COLORS[r.difficulty] || '#1b4d3e',
-                        fillOpacity: .65,
-                        weight: 2
-                    }).bindPopup(popupHtml(r)).addTo(layer);
+                    var color = COLORS[r.difficulty] || '#1b4d3e';
+
+                    var marker = new google.maps.Marker({
+                        position: { lat: r.lat, lng: r.lng },
+                        map: map,
+                        title: r.name,
+                        icon: circle(color, 8, 0.65)
+                    });
+
+                    marker.addListener('click', function () {
+                        info.setContent(popupHtml(r));
+                        info.open(map, marker);
+                    });
+
+                    markers.push(marker);
                 });
             })
             .fail(function () {
@@ -41,20 +61,38 @@
             });
     }
 
-    map.on('click', function (e) {
-        if (pending) map.removeLayer(pending);
-        pending = L.circleMarker(e.latlng, {
-            radius: 9, color: '#d9642a', fillColor: '#d9642a', fillOpacity: .4, weight: 2
-        }).addTo(map);
+    /* נקראת על ידי הלואדר של Google Maps דרך callback=initMap */
+    window.initMap = function () {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: { lat: 32.09, lng: 34.85 },
+            zoom: 9,
+            mapTypeControl: false,
+            streetViewControl: false,
+            fullscreenControl: false
+        });
 
-        $('#mapLat').val(e.latlng.lat.toFixed(6));
-        $('#mapLng').val(e.latlng.lng.toFixed(6));
-        $('.map-panel-hint').hide();
-        $('#mapRouteForm').prop('hidden', false);
-    });
+        info = new google.maps.InfoWindow();
+
+        map.addListener('click', function (e) {
+            if (pending) { pending.setMap(null); }
+
+            pending = new google.maps.Marker({
+                position: e.latLng,
+                map: map,
+                icon: circle('#d9642a', 9, 0.4)
+            });
+
+            $('#mapLat').val(e.latLng.lat().toFixed(6));
+            $('#mapLng').val(e.latLng.lng().toFixed(6));
+            $('.map-panel-hint').hide();
+            $('#mapRouteForm').prop('hidden', false);
+        });
+
+        load();
+    };
 
     $('#mapCancel').on('click', function () {
-        if (pending) { map.removeLayer(pending); pending = null; }
+        if (pending) { pending.setMap(null); pending = null; }
         $('#mapRouteForm').prop('hidden', true)[0].reset();
         $('.map-panel-hint').show();
     });
@@ -69,7 +107,7 @@
             data: $(this).serialize(),
             dataType: 'json'
         }).done(function () {
-            if (pending) { map.removeLayer(pending); pending = null; }
+            if (pending) { pending.setMap(null); pending = null; }
             $('#mapRouteForm').prop('hidden', true)[0].reset();
             $('.map-panel-hint').show();
             $('#mapMessage').html('<div class="alert alert-success">המסלול נוסף.</div>');
@@ -83,6 +121,4 @@
             $btn.prop('disabled', false);
         });
     });
-
-    load();
 })();
