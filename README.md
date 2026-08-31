@@ -31,6 +31,7 @@ cp .env.example .env
 |---|---|
 | `MONGODB_URI` | מחרוזת החיבור ל-MongoDB |
 | `PORT` | פורט השרת (ברירת מחדל 3000) |
+| `MAPS_API_KEY` | מפתח Google Maps (Maps Demo Key, חינמי) |
 | `SESSION_SECRET` | מחרוזת אקראית לחתימת ה-session |
 | `FB_PAGE_ID` | מזהה עמוד הפייסבוק שאליו מפרסמים |
 | `FB_ACCESS_TOKEN` | Page Access Token מ-Graph API |
