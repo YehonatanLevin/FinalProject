@@ -191,6 +191,17 @@ exports.destroy = async (req, res, next) => {
     try {
         await User.updateMany({ friends: userId }, { $pull: { friends: userId } });
         await Group.updateMany({ members: userId }, { $pull: { members: userId } });
+
+        /*
+         * הקבוצות שהמשתמש יצר נמחקות איתו. קודם מנתקים מהן פוסטים של
+         * משתמשים אחרים, אחרת הם נשארים עם הפניה לקבוצה שכבר לא קיימת.
+         * אותה התנהגות כמו במחיקת קבוצה ב-controllers/group.js.
+         */
+        const ownedGroups = await Group.find({ creator: userId }).select('_id');
+        await Post.updateMany(
+            { group: { $in: ownedGroups.map(g => g._id) } },
+            { $set: { group: null } }
+        );
         await Group.deleteMany({ creator: userId });
         await Post.deleteMany({ author: userId });
         await Post.updateMany({ likes: userId }, { $pull: { likes: userId } });

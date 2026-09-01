@@ -10,6 +10,7 @@ router.post('/groups', requireAuth, upload.single('coverImage'), groupController
 
 router.get('/groups/:id', requireAuth, groupController.show);
 router.get('/groups/:id/edit', requireAuth, groupController.showEdit);
+router.get('/groups/:id/members/search', requireAuth, groupController.searchMembers);
 router.post('/groups/:id/edit', requireAuth, upload.single('coverImage'), groupController.update);
 router.post('/groups/:id/delete', requireAuth, groupController.destroy);
 

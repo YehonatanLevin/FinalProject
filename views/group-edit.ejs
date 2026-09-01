@@ -84,6 +84,53 @@
 
                 </form>
 
+                <section class="member-search">
+
+                    <h2 class="section-title">חיפוש בחברי הקבוצה</h2>
+
+                    <p class="member-search-hint">
+                        החיפוש הזה זמין לך כמנהל הקבוצה. משתמש רגיל לא רואה
+                        את המסך הזה, ופנייה ישירה לכתובת מוחזרת עם 403.
+                    </p>
+
+                    <form id="memberSearchForm" data-group-id="<%= group._id %>">
+
+                        <div class="row g-2">
+
+                            <div class="col-md-4">
+                                <label class="form-label" for="mq">שם או שם משתמש</label>
+                                <input class="form-control" type="text" id="mq" maxlength="40">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label" for="mcity">עיר</label>
+                                <input class="form-control" type="text" id="mcity" maxlength="40">
+                            </div>
+
+                            <div class="col-md-2">
+                                <label class="form-label" for="mgoal">יעד לפחות</label>
+                                <input class="form-control" type="number" id="mgoal" min="0" max="1000" step="5">
+                            </div>
+
+                            <div class="col-md-3">
+                                <label class="form-label" for="msort">מיון</label>
+                                <select class="form-control" id="msort">
+                                    <option value="name">שם</option>
+                                    <option value="km">סך הקילומטרים</option>
+                                    <option value="runs">מספר ריצות</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <button class="btn btn-brand btn-sm mt-3" type="submit">חיפוש</button>
+
+                    </form>
+
+                    <div id="memberResults"></div>
+
+                </section>
+
                 <section class="danger-zone">
                     <h2>מחיקת הקבוצה</h2>
 
@@ -117,6 +164,7 @@
 
     <%- include('partials/footer') %>
     <script src="/js/groups.js"></script>
+    <script src="/js/group-members.js"></script>
 
 </body>
 </html>

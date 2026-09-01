@@ -81,7 +81,7 @@ $(function () {
             .done(function (data) {
 
                 $card.find('.comment-list').append(
-                    '<li class="comment">' +
+                    '<li class="comment" data-comment-id="' + data.comment._id + '">' +
                     '<span class="comment-author">' +
                     escapeHtml(data.comment.author.fullName) +
                     '</span>' +
@@ -89,6 +89,7 @@ $(function () {
                     escapeHtml(data.comment.text) +
                     '</span>' +
                     '<span class="comment-time">כרגע</span>' +
+                    '<button class="comment-delete" type="button" aria-label="מחיקת תגובה">&times;</button>' +
                     '</li>'
                 );
 
@@ -113,6 +114,38 @@ $(function () {
                     .find('button')
                     .prop('disabled', false);
 
+            });
+
+    });
+
+
+    /* מחיקת תגובה - מפעיל את הנתיב שכבר קיים ב-controllers/interaction.js.
+       השרת מוודא שרק כותב התגובה או בעל הפוסט רשאים למחוק. */
+
+    $('.post-card').on('click', '.comment-delete', function () {
+
+        if (!confirm('למחוק את התגובה?')) {
+            return;
+        }
+
+        var $item = $(this).closest('.comment');
+        var $card = $(this).closest('.post-card');
+
+        $.ajax({
+            url: '/posts/' + $card.data('post-id') +
+                 '/comments/' + $item.data('comment-id') + '/delete',
+            method: 'POST',
+            dataType: 'json'
+        })
+            .done(function (data) {
+                $item.remove();
+                $card.find('.comment-count').text(data.commentCount);
+            })
+            .fail(function (xhr) {
+                alert(
+                    (xhr.responseJSON && xhr.responseJSON.error) ||
+                    'מחיקת התגובה נכשלה'
+                );
             });
 
     });
