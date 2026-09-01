@@ -68,10 +68,13 @@
     <div class="comment-area" hidden>
         <ul class="comment-list">
             <% post.comments.forEach(function (c) { %>
-                <li class="comment">
+                <li class="comment" data-comment-id="<%= c._id %>">
                     <span class="comment-author"><%= c.author && c.author.fullName ? c.author.fullName : 'משתמש שנמחק' %></span>
                     <span class="comment-text"><%= c.text %></span>
                     <span class="comment-time"><%= timeAgo(c.createdAt) %></span>
+                    <% if ((c.author && String(c.author._id) === String(currentUser._id)) || String(post.author._id) === String(currentUser._id)) { %>
+                        <button class="comment-delete" type="button" aria-label="מחיקת תגובה">&times;</button>
+                    <% } %>
                 </li>
             <% }); %>
         </ul>

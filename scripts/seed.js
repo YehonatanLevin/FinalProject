@@ -20,12 +20,49 @@ const GROUP_NAMES = [
     'מרתון ירושלים 2027', 'רצות ביחד', 'אולטרה נגב', 'ריצת פארק השרון'
 ];
 
-const ROUTE_NAMES = [
-    'טיילת חוף', 'פארק הירקון - הקפה', 'עליית הכרמל', 'שביל המעיינות',
-    'סיבוב האגם', 'רכס הרים', 'טיילת הצוק', 'יער בן שמן',
-    'פארק אריאל שרון', 'שדרות רוטשילד', 'נחל אלכסנדר', 'גבעת התיתורה',
-    'חורשת האקליפטוס', 'מצפה הרים', 'שביל החולות', 'פארק הלאומי',
-    'טבעת העיר', 'מסלול הפארק הגדול', 'דרך היין', 'רכס הצוקים'
+/* עיר ותיאור לכל קבוצה, לפי הסדר של GROUP_NAMES */
+const GROUP_CITIES = [
+    'תל אביב', 'תל אביב', 'נתניה', 'חיפה',
+    'ירושלים', 'רעננה', 'באר שבע', 'הרצליה'
+];
+
+const GROUP_DESCRIPTIONS = [
+    'ריצות בוקר על קו החוף, שישי בשש. אחרי הריצה קפה בטיילת.',
+    'מפגש כל שני וחמישי ב-5:45 בגני יהושע. אימוני טמפו ואינטרוולים לסירוגין.',
+    'יוצאים בערב מטיילת ניצה. קצב נוח, אף אחד לא נשאר מאחור.',
+    'טרייל בשבילי הכרמל. עליות, נוף, ונעליים שחוזרות מלוכלכות.',
+    'מתאמנים יחד לקראת מרתון ירושלים. תוכנית של 16 שבועות, ריצה ארוכה בשבת.',
+    'קבוצת נשים, כל הרמות. הדגש על עקביות ולא על שעון.',
+    'ריצות מרחק בנגב, לפני הזריחה. לוקחים מים להכל.',
+    'הקפות בפארק, ראשון ורביעי. מתאים גם למי שחוזר מפציעה.'
+];
+
+/*
+ * מקומות ריצה אמיתיים. הכתובת, העיר והנקודה על המפה שייכים לאותו מקום,
+ * כדי שסימון על המפה יתאים למה שכתוב בכרטיס המסלול.
+ * הקואורדינטות נלקחו מ-OpenStreetMap.
+ */
+const LOCATIONS = [
+    { name: 'פארק הירקון - הקפת האגם', address: 'גני יהושע, תל אביב', city: 'תל אביב', lat: 32.10303, lng: 34.81673 },
+    { name: 'טיילת תל אביב - צפון לדרום', address: 'מגדלי טיילת דוד 1, תל אביב', city: 'תל אביב', lat: 32.07504, lng: 34.76593 },
+    { name: 'שדרות רוטשילד', address: 'שדרות רוטשילד, תל אביב', city: 'תל אביב', lat: 32.06779, lng: 34.77805 },
+    { name: 'פארק הלאומי רמת גן', address: 'הפארק הלאומי, רמת גן', city: 'רמת גן', lat: 32.04956, lng: 34.82553 },
+    { name: 'פארק אריאל שרון', address: 'פארק אריאל שרון, תל אביב', city: 'תל אביב', lat: 32.03053, lng: 34.82063 },
+    { name: 'טיילת ראשון לציון', address: 'חוף ראשון לציון, ראשון לציון', city: 'ראשון לציון', lat: 32.00137, lng: 34.73272 },
+    { name: 'טיילת ניצה', address: 'טיילת ניצה, נתניה', city: 'נתניה', lat: 32.34082, lng: 34.85275 },
+    { name: 'פארק עירוני נתניה', address: 'פארק האירוסים, נתניה', city: 'נתניה', lat: 32.28337, lng: 34.83975 },
+    { name: 'טיילת לואי - הכרמל', address: 'טיילת לואי, חיפה', city: 'חיפה', lat: 32.81049, lng: 34.98564 },
+    { name: 'חוף בת גלים', address: 'בת גלים, חיפה', city: 'חיפה', lat: 32.83299, lng: 34.97933 },
+    { name: 'פארק סאקר', address: 'גן סאקר, ירושלים', city: 'ירושלים', lat: 31.77987, lng: 35.20758 },
+    { name: 'יער ירושלים', address: 'יער ירושלים, ירושלים', city: 'ירושלים', lat: 31.7821, lng: 35.18609 },
+    { name: 'פארק רעננה', address: 'פארק רעננה, רעננה', city: 'רעננה', lat: 32.18868, lng: 34.84729 },
+    { name: 'חוף אכדיה', address: 'חוף אכדיה, הרצליה', city: 'הרצליה', lat: 32.16815, lng: 34.79843 },
+    { name: 'פארק הרצליה', address: 'פארק הרצליה, הרצליה', city: 'הרצליה', lat: 32.16814, lng: 34.8226 },
+    { name: 'נחל אלכסנדר', address: 'נחל אלכסנדר, נתניה', city: 'נתניה', lat: 32.37029, lng: 34.91014 },
+    { name: 'פארק נחל באר שבע', address: 'פארק נחל באר שבע, באר שבע', city: 'באר שבע', lat: 31.23731, lng: 34.82104 },
+    { name: 'יער בן שמן', address: 'יער בן-שמן, מודיעין', city: 'מודיעין', lat: 31.93595, lng: 34.9598 },
+    { name: 'גבעת התיתורה', address: 'גבעת התיתורה, מודיעין', city: 'מודיעין', lat: 31.90264, lng: 35.0206 },
+    { name: 'טיילת אשדוד', address: 'הטיילת/סמטת אל הים, אשדוד', city: 'אשדוד', lat: 31.81347, lng: 34.64158 }
 ];
 
 const TEXTS = [
@@ -60,6 +97,24 @@ function daysAgo(n) {
     d.setDate(d.getDate() - n);
     d.setHours(randInt(6, 21), randInt(0, 59), 0, 0);
     return d;
+}
+/* תאריך אקראי בתוך החודש הקלנדרי הנוכחי */
+function dayThisMonth() {
+    const now = new Date();
+    const d = new Date(now.getFullYear(), now.getMonth(), randInt(1, now.getDate()));
+    d.setHours(randInt(6, 21), randInt(0, 59), 0, 0);
+    return d > now ? now : d;
+}
+
+/* שלוש ריצות בחודש הנוכחי ושתיים אחורה, בתוך חלון שמונת השבועות */
+function runDates() {
+    return [
+        dayThisMonth(),
+        dayThisMonth(),
+        dayThisMonth(),
+        daysAgo(randInt(13, 30)),
+        daysAgo(randInt(31, 52))
+    ];
 }
 
 /*
@@ -121,8 +176,8 @@ async function seed() {
 
         groups.push(await Group.create({
             name: GROUP_NAMES[i],
-            description: 'קבוצת ריצה פעילה. מפגשים קבועים, כל הרמות מוזמנות.',
-            city: pick(CITIES),
+            description: GROUP_DESCRIPTIONS[i],
+            city: GROUP_CITIES[i],
             creator: creator._id,
             members: Array.from(members)
         }));
@@ -130,17 +185,17 @@ async function seed() {
 
     console.log('יוצר מסלולים...');
     const routes = [];
-    for (let i = 0; i < ROUTE_NAMES.length; i++) {
-        const routeCity = pick(CITIES);
+    for (let i = 0; i < LOCATIONS.length; i++) {
+        const spot = LOCATIONS[i];
         routes.push(await Route.create({
-            name: ROUTE_NAMES[i],
+            name: spot.name,
             description: 'מסלול מסומן, מתאים לריצות ' + pick(['בוקר', 'ערב', 'סוף שבוע']) + '.',
-            address: 'רחוב ' + randInt(1, 90) + ', ' + routeCity,
-            lat: rand(31.2, 33.0),
-            lng: rand(34.7, 35.6),
+            address: spot.address,
+            lat: spot.lat,
+            lng: spot.lng,
             distanceKm: Math.round(rand(3, 25) * 10) / 10,
             difficulty: pick(['easy', 'medium', 'hard']),
-            city: routeCity,
+            city: spot.city,
             createdBy: pick(users)._id
         }));
     }
@@ -189,10 +244,9 @@ async function seed() {
     for (const user of users) {
         const myGroups = groups.filter(g => g.members.some(m => m.equals(user._id)));
 
-        for (const ago of [randInt(1, 12), randInt(13, 30), randInt(31, 52)]) {
+        for (const when of runDates()) {
             const route = pick(routes);
             const distance = Math.round(rand(4, 14) * 10) / 10;
-            const when = daysAgo(ago);
 
             const post = new Post({
                 author: user._id,

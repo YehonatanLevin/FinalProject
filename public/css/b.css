@@ -434,3 +434,40 @@
     color: var(--ink-soft);
     font-size: .875rem;
 }
+/* כפתור מחיקת תגובה */
+.comment-delete {
+    margin-inline-start: auto;
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-size: 1.1rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 0 .35rem;
+    border-radius: var(--radius);
+    transition: color .18s ease, background-color .18s ease;
+}
+.comment-delete:hover { color: #96322d; background: #fdf6f6; }
+/* חיפוש חברי קבוצה - מסך המנהל, דרישה 26 */
+.member-search {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    margin-top: 2rem;
+}
+.member-search-hint {
+    color: var(--ink-soft);
+    font-size: .875rem;
+    margin: 0 0 1rem;
+}
+#memberResults { margin-top: 1.25rem; transition: opacity .18s ease; }
+#memberResults.is-loading { opacity: .45; }
+.member-tag {
+    background: var(--brand);
+    color: #fff;
+    border-radius: var(--radius);
+    font-size: .72rem;
+    padding: .1rem .4rem;
+    margin-inline-start: .35rem;
+}
